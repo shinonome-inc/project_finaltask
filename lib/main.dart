@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'color_extension.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -19,18 +21,6 @@ class MyApp extends StatelessWidget {
 class TopPage extends StatefulWidget {
   @override
   _TopPageState createState() => _TopPageState();
-}
-
-extension ColorExtension on String {
-  toColor() {
-    var hexColor = this.replaceAll("#", "");
-    if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
-    }
-    if (hexColor.length == 8) {
-      return Color(int.parse("0x$hexColor"));
-    }
-  }
 }
 
 class _TopPageState extends State<TopPage> {
@@ -81,27 +71,30 @@ class _TopPageState extends State<TopPage> {
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  SizedBox(
-                    width: 327,
-                    height: 50,
-                    child: TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                        backgroundColor: '#468300'.toColor(),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 16),
+                    child: SizedBox(
+                      height: 50,
+                      child: TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          backgroundColor: '#468300'.toColor(),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'ログインする',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          letterSpacing: 0.75,
-                          color: '#ffffff'.toColor(),
+                        child: Text(
+                          'ログインする',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            letterSpacing: 0.75,
+                            color: '#ffffff'.toColor(),
+                          ),
                         ),
                       ),
                     ),
