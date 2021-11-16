@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_finaltask/bottomnavigation.dart';
 
 import 'color_extension.dart';
 
@@ -111,7 +112,12 @@ class _TopPageState extends State<TopPage> {
                         color: '#ffffff'.toColor(),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavigation()));
+                    },
                   ),
                 ],
               ),
