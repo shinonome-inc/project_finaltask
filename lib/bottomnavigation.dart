@@ -6,12 +6,12 @@ import 'package:project_finaltask/tagpage.dart';
 
 import 'color_extension.dart';
 
-class Bottom extends StatefulWidget {
+class BottomNavigation extends StatefulWidget {
   @override
-  _BottomState createState() => _BottomState();
+  _BottomNavigationState createState() => _BottomNavigationState();
 }
 
-class _BottomState extends State<Bottom> {
+class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
 
   //表示するもの
