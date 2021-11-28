@@ -16,7 +16,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   //表示するもの
   static List<Widget> _pages = <Widget>[
-    Feed(),
+    FeedPage(),
     Tag(),
     MyPage(),
     Setting(),
