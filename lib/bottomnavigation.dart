@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/feedpage.dart';
-import 'package:project_finaltask/mypage.dart';
-import 'package:project_finaltask/settingpage.dart';
-import 'package:project_finaltask/tagpage.dart';
+import 'package:project_finaltask/pages/feedpage.dart';
+import 'package:project_finaltask/pages/mypage.dart';
+import 'package:project_finaltask/pages/settingpage.dart';
+import 'package:project_finaltask/pages/tagpage.dart';
 
 import 'color_extension.dart';
 
@@ -16,7 +16,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   //表示するもの
   static List<Widget> _pages = <Widget>[
-    Feed(),
+    FeedPage(),
     Tag(),
     MyPage(),
     Setting(),
