@@ -23,20 +23,14 @@ class _FeedPageState extends State<FeedPage> {
         toolbarHeight: 100,
         centerTitle: true,
         title: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              color: Colors.redAccent,
-              height: 22,
-              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-              child: Text(
-                'Feed',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontFamily: 'Pacifico',
-                  color: '#000000'.toColor(),
-                ),
+            Text(
+              'Feed',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 17,
+                fontFamily: 'Pacifico',
+                color: '#000000'.toColor(),
               ),
             ),
             Container(
@@ -82,19 +76,25 @@ class ArticleListView extends StatelessWidget {
         itemCount: articles.length,
         itemBuilder: (BuildContext context, int index) {
           final article = articles[index];
-          return ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(article.user.iconUrl),
-              ),
-              title: Text(article.title),
-              subtitle: Text(
-                  '@${article.user.id} 投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}'),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ArticlePage(article: article)));
-              });
+          return Container(
+            decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(color: '#B2B2B2'.toColor(), width: 0.5)),
+            ),
+            child: ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(article.user.iconUrl),
+                ),
+                title: Text(article.title),
+                subtitle: Text(
+                    '@${article.user.id} 投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}'),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ArticlePage(article: article)));
+                }),
+          );
         });
   }
 }

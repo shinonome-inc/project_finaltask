@@ -113,10 +113,8 @@ class _TopPageState extends State<TopPage> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BottomNavigation()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => BottomNavigation()));
                     },
                   ),
                 ],
