@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_finaltask/models/tag.dart';
 import 'package:project_finaltask/qiita_tag.dart';
-import 'package:project_finaltask/tag.dart';
 
-import '../color_extension.dart';
+import '../utils/color_extension.dart';
 
 class TagPage extends StatefulWidget {
   @override
@@ -54,46 +54,42 @@ class TagGridView extends StatelessWidget {
           maxCrossAxisExtent: 300,
           childAspectRatio: 162 / 138,
         ),
+        padding:EdgeInsets.all(8),
         itemCount: tags.length,
         itemBuilder: (BuildContext context, int index) {
           final tag = tags[index];
           return GestureDetector(
-              child: SizedBox(
-                width: 162,
-                height: 138,
-                child: Card(
-                  child: Container(
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8)
-                    ),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image(
-                              width: 38,
-                              height: 38,
-                              image: NetworkImage(tag.iconUrl)),
-                          ListTile(
-                            title: Center(
-                              child: Text(tag.id,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                  )),
-                            ),
-                            subtitle: Center(
-                              child: Text(
-                                '記事件数:${tag.articlecount}\nフォロワー数:${tag.follower}',
-                                textAlign: TextAlign.center,
+              child: Card(
+                margin: EdgeInsets.all(8),
+                child: Container(
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image(
+                            width: 38,
+                            height: 38,
+                            image: NetworkImage(tag.iconUrl)),
+                        ListTile(
+                          title: Center(
+                            child: Text(tag.id,
                                 style: TextStyle(
-                                  fontSize: 12,
-                                ),
+                                  fontSize: 14,
+                                )),
+                          ),
+                          subtitle: Center(
+                            child: Text(
+                              '記事件数:${tag.articlecount}\nフォロワー数:${tag.follower}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12,
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

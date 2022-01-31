@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:project_finaltask/pages/articlepage.dart';
 import 'package:project_finaltask/utils/changedate.dart';
 
-import '../article.dart';
-import '../color_extension.dart';
+import '../models/article.dart';
+import '../utils/color_extension.dart';
 import '../qiita_qlient.dart';
 
 class FeedPage extends StatefulWidget {

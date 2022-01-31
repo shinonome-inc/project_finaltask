@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import 'tag.dart';
+import 'models/tag.dart';
 
 class QiitaTag {
   static Future<List<Tag>> fetchTag() async {

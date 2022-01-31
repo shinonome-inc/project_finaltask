@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/article.dart';
+import 'package:project_finaltask/models/article.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../color_extension.dart';
+import '../utils/color_extension.dart';
 
 class ArticlePage extends StatelessWidget {
   final Article article;

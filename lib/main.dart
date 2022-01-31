@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/bottomnavigation.dart';
 
-import 'color_extension.dart';
+import 'utils/color_extension.dart';
 
 void main() {
   runApp(MyApp());
