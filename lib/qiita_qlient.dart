@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import 'article.dart';
+import 'models/article.dart';
 
 class QiitaClient {
   static Future<List<Article>> fetchArticle() async {
@@ -17,3 +17,6 @@ class QiitaClient {
     }
   }
 }
+
+
+

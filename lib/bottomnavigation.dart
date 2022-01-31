@@ -4,7 +4,7 @@ import 'package:project_finaltask/pages/mypage.dart';
 import 'package:project_finaltask/pages/settingpage.dart';
 import 'package:project_finaltask/pages/tagpage.dart';
 
-import 'color_extension.dart';
+import 'utils/color_extension.dart';
 
 class BottomNavigation extends StatefulWidget {
   @override
@@ -17,7 +17,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   //表示するもの
   static List<Widget> _pages = <Widget>[
     FeedPage(),
-    Tag(),
+    TagPage(),
     MyPage(),
     Setting(),
   ];
