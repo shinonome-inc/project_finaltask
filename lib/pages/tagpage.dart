@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/models/tag.dart';
-import 'package:project_finaltask/qiita_tag.dart';
+import 'package:project_finaltask/pages/tagdetailpage.dart';
+import 'package:project_finaltask/qiita_qlient.dart';
 
 import '../utils/color_extension.dart';
 
@@ -54,7 +55,7 @@ class TagGridView extends StatelessWidget {
           maxCrossAxisExtent: 300,
           childAspectRatio: 162 / 138,
         ),
-        padding:EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
         itemCount: tags.length,
         itemBuilder: (BuildContext context, int index) {
           final tag = tags[index];
@@ -94,7 +95,12 @@ class TagGridView extends StatelessWidget {
                   ),
                 ),
               ),
-              onTap: () {});
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return TagDetailPage(tag: tag);
+                }));
+              });
         });
   }
 }
