@@ -14,7 +14,7 @@ class ArticleListView extends StatefulWidget {
 class _ArticleListViewState extends State<ArticleListView> {
   //int _currentPage = 1;
   bool _isLoading = false;
-  late List<Article> _articleList;
+  List<Article> _articleList = [];
 
   @override
   void initState() {
@@ -47,7 +47,11 @@ class _ArticleListViewState extends State<ArticleListView> {
               leading: CircleAvatar(
                 backgroundImage: NetworkImage(article.user.iconUrl),
               ),
-              title: Text(article.title),
+              title: Text(
+                article.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
               subtitle: Text(
                   '@${article.user.id} 投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}'),
               onTap: () {
@@ -71,7 +75,7 @@ class _ArticleListViewState extends State<ArticleListView> {
       setState(() {
         if (page == 1) {
           _articleList = articleList;
-        } else {
+        } else if (page != 1) {
           _articleList.addAll(articleList);
         }
         //_currentPage = page;

@@ -64,7 +64,11 @@ class TagArticleListView extends StatelessWidget {
                 leading: CircleAvatar(
                   backgroundImage: NetworkImage(article.user.iconUrl),
                 ),
-                title: Text(article.title),
+                title: Text(
+                  article.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 subtitle: Text(
                     '@${article.user.id} 投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}'),
                 onTap: () {
