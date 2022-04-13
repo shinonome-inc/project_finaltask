@@ -12,38 +12,34 @@ class ArticleListView extends StatefulWidget {
 }
 
 class _ArticleListViewState extends State<ArticleListView> {
-  //int _currentPage = 1;
+  int page = 1;
   bool _isLoading = false;
   List<Article> _articleList = [];
 
   @override
   void initState() {
     super.initState();
-    _loadArticle(1);
+    _loadArticle();
   }
 
   @override
   Widget build(BuildContext context) {
     return NotificationListener<ScrollNotification>(
-      onNotification: (ScrollNotification notification) {
-        if (notification.metrics.extentAfter == 0.0) {
-          _loadArticle(_articleList.length + 1);
-        }
-        return true;
-      },
-      child: ListView.builder(
-        itemCount: _articleList.length,
-        itemBuilder: (BuildContext context, int index) {
-          final article = _articleList[index];
-          if (index == _articleList.length) {
-            return CircularProgressIndicator();
+        onNotification: (ScrollNotification notification) {
+          if (notification.metrics.extentAfter == 0.0) {
+            _loadArticle();
           }
-          return Container(
-            decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(color: '#B2B2B2'.toColor(), width: 0.5)),
-            ),
-            child: ListTile(
+          return true;
+        },
+        child: ListView.builder(
+          itemCount: _articleList.length,
+          itemBuilder: (BuildContext context, int index) {
+            final article = _articleList[index];
+            // if (index == _articleList.length) {
+            // return CircularProgressIndicator();
+            //}
+            //else if(index > _articleList.length){return null;}
+            return ListTile(
               leading: CircleAvatar(
                 backgroundImage: NetworkImage(article.user.iconUrl),
               ),
@@ -51,42 +47,58 @@ class _ArticleListViewState extends State<ArticleListView> {
                 article.title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 14),
               ),
-              subtitle: Text(
-                  '@${article.user.id} 投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}'),
+              subtitle: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                      bottom:
+                          BorderSide(color: '#B2B2B2'.toColor(), width: 0.5)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    '@${article.user.id} 投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}',
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
               onTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => ArticlePage(article: article)));
               },
-            ),
-          );
-        },
-      ),
-    );
+            );
+          },
+        ));
   }
 
-  void _loadArticle(int page) {
+  void _loadArticle() async {
     if (_isLoading) {
       return;
     }
-    QiitaClient.fetchArticle(page).then((articleList) {
+//新たなデータを取得
+    try {
+      page++;
+      var articleList = await QiitaClient().fetchArticle(page);
+      {
+        setState(() {
+          if (page == 1) {
+            _articleList = articleList;
+          } else if (page != 1) {
+            _articleList.addAll(articleList);
+          }
+          //_currentPage = page;
+        });
+      }
+    } on Exception catch (e) {
       setState(() {
-        if (page == 1) {
-          _articleList = articleList;
-        } else if (page != 1) {
-          _articleList.addAll(articleList);
-        }
-        //_currentPage = page;
+        print(e);
       });
-    }).catchError((e) {
-      setState(() {
-        print("Error");
-      });
-    }).whenComplete(() {
-      _isLoading = false;
-    });
-    _isLoading = true;
+    }
+    _isLoading = false;
   }
 }

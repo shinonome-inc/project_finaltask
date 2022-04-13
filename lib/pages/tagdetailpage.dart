@@ -68,9 +68,12 @@ class TagArticleListView extends StatelessWidget {
                   article.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 14),
                 ),
                 subtitle: Text(
-                    '@${article.user.id} 投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}'),
+                  '@${article.user.id} 投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}',
+                  style: TextStyle(fontSize: 12),
+                ),
                 onTap: () {
                   Navigator.push(
                       context,

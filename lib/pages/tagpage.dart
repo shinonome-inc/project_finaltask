@@ -14,7 +14,6 @@ class TagPage extends StatefulWidget {
 }
 
 class _TagPageState extends State<TagPage> {
-  @override
   final Future<List<Tag>> tags = QiitaTag.fetchTag();
   Widget build(BuildContext context) {
     return Scaffold(
