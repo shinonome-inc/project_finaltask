@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_finaltask/models/article.dart';
 import 'package:project_finaltask/pages/articlelistview.dart';
 
+import '../qiita_qlient.dart';
 import '../utils/color_extension.dart';
 
 class FeedPage extends StatefulWidget {
@@ -10,6 +12,8 @@ class FeedPage extends StatefulWidget {
 }
 
 class _FeedPageState extends State<FeedPage> {
+  var articles = QiitaClient().fetchArticle(1);
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -46,7 +50,14 @@ class _FeedPageState extends State<FeedPage> {
         backgroundColor: Colors.white,
       ),
       body: Center(
-        child: ArticleListView(),
+        child: FutureBuilder<List<Article>>(
+            future: articles,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ArticleListView();
+              }
+              return CircularProgressIndicator();
+            }),
       ),
     );
   }

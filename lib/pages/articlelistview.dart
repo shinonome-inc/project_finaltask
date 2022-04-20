@@ -19,72 +19,76 @@ class _ArticleListViewState extends State<ArticleListView> {
   @override
   void initState() {
     super.initState();
-    _loadArticle();
+    this._loadArticle();
   }
 
   @override
   Widget build(BuildContext context) {
     return NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification notification) {
-          if (notification.metrics.extentAfter == 0.0) {
+          if (!_isLoading && notification.metrics.extentAfter == 0.0) {
             _loadArticle();
           }
-          return true;
+          return false;
         },
         child: ListView.builder(
           itemCount: _articleList.length,
           itemBuilder: (BuildContext context, int index) {
             final article = _articleList[index];
-            // if (index == _articleList.length) {
+            // if (index >= _articleList.length) {
             // return CircularProgressIndicator();
             //}
             //else if(index > _articleList.length){return null;}
-            return ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(article.user.iconUrl),
-              ),
-              title: Text(
-                article.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 14),
-              ),
-              subtitle: Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                      bottom:
-                          BorderSide(color: '#B2B2B2'.toColor(), width: 0.5)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    '@${article.user.id} 投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}',
-                    style: TextStyle(
-                      fontSize: 12,
+            return index >= _articleList.length
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(article.user.iconUrl),
                     ),
-                  ),
-                ),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ArticlePage(article: article)));
-              },
-            );
+                    title: Text(
+                      article.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    subtitle: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: '#B2B2B2'.toColor(), width: 0.5)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          '@${article.user.id} 投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ArticlePage(article: article)));
+                    },
+                  );
           },
         ));
   }
 
   void _loadArticle() async {
-    if (_isLoading) {
-      return;
-    }
 //新たなデータを取得
     try {
-      page++;
+      _isLoading = true;
+
       var articleList = await QiitaClient().fetchArticle(page);
       {
+        page++;
         setState(() {
           if (page == 1) {
             _articleList = articleList;
@@ -93,12 +97,12 @@ class _ArticleListViewState extends State<ArticleListView> {
           }
           //_currentPage = page;
         });
+        _isLoading = false;
       }
-    } on Exception catch (e) {
+    } catch (e) {
       setState(() {
         print(e);
       });
     }
-    _isLoading = false;
   }
 }
