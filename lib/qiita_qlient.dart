@@ -17,9 +17,17 @@ class QiitaClient {
     return 'https://qiita.com/api/v2/oauth/authorize?client_id=$clientID&scope=$scope&state=$state';
   } //scope
 
-  Future<List<Article>> fetchArticle(int page) async {
+  // late final Tag tag;
+
+  Future<List<Article>> fetchArticle(int page, [String? query]) async {
     final accessToken = keyAccessToken;
-    final url = 'https://qiita.com/api/v2/items?page=$page&per_page=20';
+    String url = 'https://qiita.com/api/v2/items?page=$page&per_page=20';
+    if (query != "") {
+      url += '&query=$query';
+    }
+    // if (tag != null) {
+    //   url += '?tag=${tag.id}';
+    // }
     final response = await http
         .get(Uri.parse(url), headers: {'Authorization': 'Bearer $accessToken'});
 
@@ -47,8 +55,9 @@ class QiitaTag {
 
 class QiitaTagArticle {
   late final Tag tag;
-  static Future<List<Article>> fetchArticle() async {
-    final url = 'https://qiita.com/api/v2/tags/flutter/items';
+  Future<List<Article>> fetchArticle(Tag tag, int page) async {
+    final url =
+        'https://qiita.com/api/v2/tags/${tag.id}/items?page=$page&per_page=20';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final List<dynamic> jsonArray = json.decode(response.body);

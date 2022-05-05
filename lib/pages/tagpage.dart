@@ -97,7 +97,7 @@ class TagGridView extends StatelessWidget {
               onTap: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) {
-                  return TagDetailPage(tag: tag);
+                  return TagDetailPage(tag);
                 }));
               });
         });
