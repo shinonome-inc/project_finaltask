@@ -17,7 +17,7 @@ class QiitaClient {
     return 'https://qiita.com/api/v2/oauth/authorize?client_id=$clientID&scope=$scope&state=$state';
   } //scope
 
-  // late final Tag tag;
+  // late final Tag? tag;
 
   Future<List<Article>> fetchArticle(int page, [String? query]) async {
     final accessToken = keyAccessToken;
@@ -25,8 +25,8 @@ class QiitaClient {
     if (query != "") {
       url += '&query=$query';
     }
-    // if (tag != null) {
-    //   url += '?tag=${tag.id}';
+    // if (tag!.id != "") {
+    //   url += 'tags/${tag.id}';
     // }
     final response = await http
         .get(Uri.parse(url), headers: {'Authorization': 'Bearer $accessToken'});

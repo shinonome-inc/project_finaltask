@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/models/tag.dart';
-import 'package:project_finaltask/pages/articlepage.dart';
-import 'package:project_finaltask/utils/changedate.dart';
+import 'package:project_finaltask/pages/articlelistview.dart';
 
 import '../models/article.dart';
 import '../qiita_qlient.dart';
 import '../utils/color_extension.dart';
+import '../view.dart';
 
 class TagDetailPage extends StatefulWidget {
   late final Tag tag;
@@ -17,7 +17,6 @@ class TagDetailPage extends StatefulWidget {
 }
 
 class _TagDetailPageState extends State<TagDetailPage> {
-  //late final Tag tag;
   List<Article> articleList = [];
   bool _isLoading = false;
   int page = 1;
@@ -60,55 +59,26 @@ class _TagDetailPageState extends State<TagDetailPage> {
                     return false;
                   },
                   child: articleList.isNotEmpty
-                      ? ListView.builder(
-                          itemCount: articleList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final article = articleList[index];
-                            //else if(index > _articleList.length){return null;}
-                            return index >= articleList.length
-                                ? Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundImage:
-                                          NetworkImage(article.user.iconUrl),
-                                    ),
-                                    title: Text(
-                                      article.title,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 14),
-                                    ),
-                                    subtitle: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: '#B2B2B2'.toColor(),
-                                                width: 0.5)),
-                                      ),
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 8.0),
-                                        child: Text(
-                                          '@${article.user.id} 投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => ArticlePage(
-                                                  article: article)));
-                                    },
-                                  );
-                          },
-                        )
-                      : _emptyView(),
+                      ? Column(children: [
+                          Container(
+                            padding : EdgeInsets.only(left: 12),
+                            child: Text(
+                              "  投稿記事",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: '#828282'.toColor(),
+                              ),
+                            ),
+                            color: '#F2F2F2'.toColor(),
+                            height: 28,
+                            width: double.infinity,
+                            alignment: Alignment(-1, 0),
+                          ),
+                          Flexible(
+                            child: ArticleListView(articleList: articleList),
+                          ),
+                        ])
+                      : EmptyView(),
                 );
               }
               return CircularProgressIndicator();
@@ -118,7 +88,6 @@ class _TagDetailPageState extends State<TagDetailPage> {
   }
 
   void loadArticle() async {
-    //List<Article> results = [];
     //新たなデータを取得
     try {
       _isLoading = true;
@@ -129,7 +98,6 @@ class _TagDetailPageState extends State<TagDetailPage> {
         if (page == 1) {
           articleList = results;
         } else if (page != 1) articleList.addAll(results);
-        //_currentPage = page;
       });
       _isLoading = false;
     } catch (e) {
@@ -137,31 +105,5 @@ class _TagDetailPageState extends State<TagDetailPage> {
         print(e);
       });
     }
-  }
-
-  Widget _emptyView() {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            '検索にマッチする記事はありませんでした',
-            style: TextStyle(
-              fontSize: 14,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            child: Text(
-              '検索条件を変えるなどして再度検索をしてください',
-              style: TextStyle(
-                fontSize: 12,
-                color: '#828282'.toColor(),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
   }
 }
