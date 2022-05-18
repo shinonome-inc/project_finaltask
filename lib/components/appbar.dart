@@ -19,7 +19,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.chevron_left),
+              icon: Icon(Icons.chevron_left, color: '#468300'.toColor()),
               iconSize: 45,
             )
           : SizedBox.shrink(),

@@ -33,7 +33,7 @@ class _TagDetailPageState extends State<TagDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent(text: 'Tag', backButton: true),
+      appBar: AppBarComponent(text: widget.tag.id, backButton: true),
       body: Center(
         child: FutureBuilder<List<Article>>(
             future: QiitaTagArticle().fetchArticle(widget.tag, 1),
