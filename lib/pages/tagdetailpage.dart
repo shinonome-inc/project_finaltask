@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_finaltask/components/appbar.dart';
 import 'package:project_finaltask/models/tag.dart';
 import 'package:project_finaltask/pages/articlelistview.dart';
 
@@ -32,19 +33,7 @@ class _TagDetailPageState extends State<TagDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          widget.tag.id,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 17,
-            fontFamily: 'Pacifico',
-            color: '#000000'.toColor(),
-          ),
-        ),
-        backgroundColor: Colors.white,
-      ),
+      appBar: AppBarComponent(text: 'Tag', backButton: true),
       body: Center(
         child: FutureBuilder<List<Article>>(
             future: QiitaTagArticle().fetchArticle(widget.tag, 1),
@@ -61,7 +50,7 @@ class _TagDetailPageState extends State<TagDetailPage> {
                   child: articleList.isNotEmpty
                       ? Column(children: [
                           Container(
-                            padding : EdgeInsets.only(left: 12),
+                            padding: EdgeInsets.only(left: 12),
                             child: Text(
                               "  投稿記事",
                               style: TextStyle(

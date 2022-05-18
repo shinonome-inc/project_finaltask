@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_finaltask/components/appbar.dart';
 import 'package:project_finaltask/models/tag.dart';
 import 'package:project_finaltask/pages/tagdetailpage.dart';
 import 'package:project_finaltask/qiita_qlient.dart';
-
-import '../utils/color_extension.dart';
 
 class TagPage extends StatefulWidget {
   @override
@@ -15,20 +14,10 @@ class TagPage extends StatefulWidget {
 
 class _TagPageState extends State<TagPage> {
   final Future<List<Tag>> tags = QiitaTag.fetchTag();
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Tags',
-          style: TextStyle(
-            fontSize: 17,
-            fontFamily: 'Pacifico',
-            color: '#000000'.toColor(),
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-      ),
+      appBar: AppBarComponent(text: 'Tag'),
       body: Center(
         child: FutureBuilder<List<Tag>>(
             future: tags,
