@@ -14,6 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My App',
+      theme: ThemeData(
+          primaryIconTheme: IconThemeData(color: '#468300'.toColor())),
       home: TopPage(),
     );
   }

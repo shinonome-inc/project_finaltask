@@ -1,86 +1,98 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_finaltask/components/appbar.dart';
 import 'package:project_finaltask/models/tag.dart';
-import 'package:project_finaltask/pages/articlepage.dart';
-import 'package:project_finaltask/utils/changedate.dart';
+import 'package:project_finaltask/pages/articlelistview.dart';
 
 import '../models/article.dart';
 import '../qiita_qlient.dart';
 import '../utils/color_extension.dart';
+import '../view.dart';
 
-class TagDetailPage extends StatelessWidget {
+class TagDetailPage extends StatefulWidget {
   late final Tag tag;
-  TagDetailPage({Key? key, required this.tag}) : super(key: key);
+  TagDetailPage(this.tag);
 
-  final Future<List<Article>> articles = QiitaTagArticle.fetchArticle();
+  @override
+  _TagDetailPageState createState() => _TagDetailPageState();
+}
 
+class _TagDetailPageState extends State<TagDetailPage> {
+  List<Article> articleList = [];
+  bool _isLoading = false;
+  int page = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    loadArticle();
+  }
+  //final Future<List<Article>> articles =
+  //  QiitaClient().fetchArticle(1, "", tag.id);
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          tag.id,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 17,
-            fontFamily: 'Pacifico',
-            color: '#000000'.toColor(),
-          ),
-        ),
-        backgroundColor: Colors.white,
-      ),
+      appBar: AppBarComponent(text: widget.tag.id, backButton: true),
       body: Center(
         child: FutureBuilder<List<Article>>(
-            future: articles,
+            future: QiitaTagArticle().fetchArticle(widget.tag, 1),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return TagArticleListView(articles: snapshot.data!.toList());
+                return NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification notification) {
+                    if (!_isLoading &&
+                        notification.metrics.extentAfter == 0.0) {
+                      loadArticle();
+                    }
+                    return false;
+                  },
+                  child: articleList.isNotEmpty
+                      ? Column(children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 12),
+                            child: Text(
+                              "  投稿記事",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: '#828282'.toColor(),
+                              ),
+                            ),
+                            color: '#F2F2F2'.toColor(),
+                            height: 28,
+                            width: double.infinity,
+                            alignment: Alignment(-1, 0),
+                          ),
+                          Flexible(
+                            child: ArticleListView(articleList: articleList),
+                          ),
+                        ])
+                      : EmptyView(),
+                );
               }
               return CircularProgressIndicator();
             }),
       ),
     );
   }
-}
 
-class TagArticleListView extends StatelessWidget {
-  late final List<Article> articles;
-  TagArticleListView({Key? key, required this.articles}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: articles.length,
-        itemBuilder: (BuildContext context, int index) {
-          final article = articles[index];
-          return Container(
-            decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(color: '#B2B2B2'.toColor(), width: 0.5)),
-            ),
-            child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(article.user.iconUrl),
-                ),
-                title: Text(
-                  article.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 14),
-                ),
-                subtitle: Text(
-                  '@${article.user.id} 投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}',
-                  style: TextStyle(fontSize: 12),
-                ),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ArticlePage(article: article)));
-                }),
-          );
-        });
+  void loadArticle() async {
+    //新たなデータを取得
+    try {
+      _isLoading = true;
+      List<Article> results =
+          await QiitaTagArticle().fetchArticle(widget.tag, page);
+      page++;
+      setState(() {
+        if (page == 1) {
+          articleList = results;
+        } else if (page != 1) articleList.addAll(results);
+      });
+      _isLoading = false;
+    } catch (e) {
+      setState(() {
+        print(e);
+      });
+    }
   }
 }
