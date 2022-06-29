@@ -35,14 +35,17 @@ class _BottomNavigationState extends State<BottomNavigation> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.format_list_bulleted), label: 'フィード'),
-          BottomNavigationBarItem(icon: Icon(Icons.label), label: 'タグ'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'マイページ'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: '設定'),
+              icon: Icon(Icons.format_list_bulleted_outlined), label: 'フィード'),
+          BottomNavigationBarItem(icon: Icon(Icons.label_outline), label: 'タグ'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline), label: 'マイページ'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined), label: '設定'),
         ],
       ),
     );
   }
+//  format_list_
 
 //タップ時の処理
   void _onTabTapped(int index) {

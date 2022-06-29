@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:project_finaltask/components/appbar.dart';
 import 'package:project_finaltask/models/tag.dart';
 import 'package:project_finaltask/pages/tagdetailpage.dart';
-import 'package:project_finaltask/qiita_qlient.dart';
+import 'package:project_finaltask/qiita_client.dart';
 
 class TagPage extends StatefulWidget {
   @override
@@ -13,7 +13,7 @@ class TagPage extends StatefulWidget {
 }
 
 class _TagPageState extends State<TagPage> {
-  final Future<List<Tag>> tags = QiitaTag.fetchTag();
+  final Future<List<Tag>> tags = QiitaClient().fetchTag();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

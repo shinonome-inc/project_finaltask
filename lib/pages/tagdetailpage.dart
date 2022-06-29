@@ -5,9 +5,8 @@ import 'package:project_finaltask/models/tag.dart';
 import 'package:project_finaltask/pages/articlelistview.dart';
 
 import '../models/article.dart';
-import '../qiita_qlient.dart';
+import '../qiita_client.dart';
 import '../utils/color_extension.dart';
-import '../view.dart';
 
 class TagDetailPage extends StatefulWidget {
   late final Tag tag;
@@ -36,7 +35,7 @@ class _TagDetailPageState extends State<TagDetailPage> {
       appBar: AppBarComponent(text: widget.tag.id, backButton: true),
       body: Center(
         child: FutureBuilder<List<Article>>(
-            future: QiitaTagArticle().fetchArticle(widget.tag, 1),
+            future: QiitaClient().fetchTagArticle(page, widget.tag.id),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return NotificationListener<ScrollNotification>(
@@ -52,7 +51,7 @@ class _TagDetailPageState extends State<TagDetailPage> {
                           Container(
                             padding: EdgeInsets.only(left: 12),
                             child: Text(
-                              "  投稿記事",
+                              " 投稿記事",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: '#828282'.toColor(),
@@ -67,8 +66,17 @@ class _TagDetailPageState extends State<TagDetailPage> {
                             child: ArticleListView(articleList: articleList),
                           ),
                         ])
-                      : EmptyView(),
+                      : _isLoading
+                          ? CircularProgressIndicator()
+                          : Center(
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: Text('投稿記事がありません'),
+                              ),
+                            ),
                 );
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error!}');
               }
               return CircularProgressIndicator();
             }),
@@ -78,21 +86,17 @@ class _TagDetailPageState extends State<TagDetailPage> {
 
   void loadArticle() async {
     //新たなデータを取得
-    try {
+    setState(() {
       _isLoading = true;
-      List<Article> results =
-          await QiitaTagArticle().fetchArticle(widget.tag, page);
+    });
+    List<Article> results =
+        await QiitaClient().fetchTagArticle(page, widget.tag.id);
+    setState(() {
       page++;
-      setState(() {
-        if (page == 1) {
-          articleList = results;
-        } else if (page != 1) articleList.addAll(results);
-      });
+      articleList.addAll(results);
+    });
+    setState(() {
       _isLoading = false;
-    } catch (e) {
-      setState(() {
-        print(e);
-      });
-    }
+    });
   }
 }

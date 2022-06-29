@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:project_finaltask/models/article.dart';
 import 'package:project_finaltask/pages/articlelistview.dart';
 
-import '../qiita_qlient.dart';
+import '../qiita_client.dart';
 import '../utils/color_extension.dart';
 import '../view.dart';
 
 class FeedPage extends StatefulWidget {
+  const FeedPage({Key? key}) : super(key: key);
   @override
   _FeedPageState createState() => _FeedPageState();
 }
 
 class _FeedPageState extends State<FeedPage> {
-  String searchword = "";
+  String searchword = '';
   List<Article> articleList = [];
 
   bool _isLoading = false;
@@ -22,7 +23,7 @@ class _FeedPageState extends State<FeedPage> {
   @override
   void initState() {
     super.initState();
-    loadArticle(searchword);
+    loadArticle();
   }
 
   @override
@@ -30,6 +31,7 @@ class _FeedPageState extends State<FeedPage> {
     print(searchword);
     return Scaffold(
       appBar: AppBar(
+        elevation: 1,
         toolbarHeight: 100,
         centerTitle: true,
         title: Column(
@@ -60,24 +62,25 @@ class _FeedPageState extends State<FeedPage> {
                     articleList.clear();
                     setState(() {
                       searchword = word;
-                      loadArticle(searchword);
+                      loadArticle();
                     });
                   }),
             ),
           ],
         ),
         backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: FutureBuilder<List<Article>>(
-            future: QiitaClient().fetchArticle(1),
+            future: QiitaClient().fetchArticle(page, ''),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return NotificationListener<ScrollNotification>(
                   onNotification: (ScrollNotification notification) {
                     if (!_isLoading &&
                         notification.metrics.extentAfter == 0.0) {
-                      loadArticle(searchword);
+                      loadArticle();
                     }
                     return false;
                   },
@@ -87,29 +90,26 @@ class _FeedPageState extends State<FeedPage> {
                           ? CircularProgressIndicator()
                           : EmptyView(),
                 );
-              }
-              return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error!}');
+              } else
+                return const CircularProgressIndicator();
             }),
       ),
     );
   }
 
-  void loadArticle(searchword) async {
-    try {
+  void loadArticle() async {
+    setState(() {
       _isLoading = true;
-      List<Article> results =
-          await QiitaClient().fetchArticle(page, searchword);
+    });
+    List<Article> results = await QiitaClient().fetchArticle(page, searchword);
+    setState(() {
       page++;
-      setState(() {
-        if (page == 1) {
-          articleList = results;
-        } else if (page != 1) articleList.addAll(results);
-      });
+      articleList.addAll(results);
+    });
+    setState(() {
       _isLoading = false;
-    } catch (e) {
-      setState(() {
-        print(e);
-      });
-    }
+    });
   }
 }
