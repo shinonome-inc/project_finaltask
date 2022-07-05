@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/pages/feedpage.dart';
-import 'package:project_finaltask/pages/mypage.dart';
+import 'package:project_finaltask/pages/mypage/mypage.dart';
 import 'package:project_finaltask/pages/settingpage.dart';
 import 'package:project_finaltask/pages/tagpage.dart';
 

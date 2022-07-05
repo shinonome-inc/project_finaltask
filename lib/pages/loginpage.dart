@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late String _state;
   late StreamSubscription _sub;
+  bool _hascode = false;
 
   @override
   void initState() {
@@ -57,18 +58,22 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
         child: WebView(
           initialUrl: QiitaClient().createAuthorizeUrl(_state),
-          onPageFinished: (String url) {
-            if (url.contains('https://qiita.com/settings/applications?code')) {
-              Uri uri = Uri.parse(url);
-              _onAuthorizeCallbackIsCalled(uri);
-            }
-          },
           navigationDelegate: (NavigationRequest request) {
             if (request.url
                 .contains('https://qiita.com/settings/applications?code')) {
+              _hascode = true;
+              setState(() {});
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
+          },
+          onPageFinished: (String url) {
+            // if (request.url
+            //     .contains('https://qiita.com/settings/applications?code')) {
+            if (_hascode) {
+              Uri uri = Uri.parse(url);
+              _onAuthorizeCallbackIsCalled(uri);
+            }
           },
         ),
       ),
