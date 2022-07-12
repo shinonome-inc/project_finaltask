@@ -12,7 +12,7 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
-  bool _isLogined = false;
+  bool? _isLogined;
 
   @override
   void initState() {
@@ -29,7 +29,12 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(text: 'MyPage'),
-      body: Center(child: _isLogined ? LoginView() : NotLoginView()),
+      body: Center(
+          child: _isLogined == null
+              ? CircularProgressIndicator()
+              : _isLogined!
+                  ? LoginView()
+                  : NotLoginView()),
     );
   }
 }

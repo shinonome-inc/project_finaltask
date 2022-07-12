@@ -61,8 +61,9 @@ class _LoginPageState extends State<LoginPage> {
           navigationDelegate: (NavigationRequest request) {
             if (request.url
                 .contains('https://qiita.com/settings/applications?code')) {
-              _hascode = true;
-              setState(() {});
+              setState(() {
+                _hascode = true;
+              });
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
@@ -87,6 +88,7 @@ class _LoginPageState extends State<LoginPage> {
     // リダイレクトURLからアクセストークンを受け取る
     await QiitaClient().saveAccessToken(accessToken);
     print(accessToken);
+
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => TopPage()),
     );

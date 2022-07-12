@@ -14,73 +14,87 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   List<Article> articleList = [];
-  final Future<User> user = QiitaClient().getAuthenticatedUser();
-  final Future<List<Article>> userarticle = QiitaClient().fetchUserArticle();
+  List<Article> userarticle = [];
+  late User user;
+  bool _isDataLoading = false;
 
   bool _isLoading = false;
   int page = 1;
 
+  bool _isError = false;
+
+  // Future<User> user = QiitaClient().getAuthenticatedUser();
+  // final Future<List<Article>> userarticle = QiitaClient().fetchUserArticle();
+
+  Future<void> fetchUserData() async {
+    setState(() {
+      _isDataLoading = true;
+    });
+    try {
+      user = await QiitaClient().getAuthenticatedUser();
+      userarticle = await QiitaClient().fetchUserArticle();
+      _isDataLoading = false;
+    } catch (e) {
+      _isError = true;
+      print(e);
+    }
+    setState(() {
+      _isDataLoading = false;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    fetchUserData();
     loadArticle();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FutureBuilder<User>(
-            future: user,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return _UserProfile(user: snapshot.data!);
-              }
-              return CircularProgressIndicator();
-            }),
-        FutureBuilder<List<Article>>(
-            future: userarticle,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return NotificationListener<ScrollNotification>(
-                    onNotification: (ScrollNotification notification) {
-                      if (!_isLoading &&
-                          notification.metrics.extentAfter == 0.0) {
-                        loadArticle();
-                      }
-                      return true;
-                    },
-                    child: articleList.isNotEmpty
-                        ? Column(children: [
-                            Container(
-                              padding: EdgeInsets.only(left: 12),
-                              child: Text(
-                                " 投稿記事",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: '#828282'.toColor(),
+    return Scaffold(
+        body: _isDataLoading
+            ? Center(child: CircularProgressIndicator())
+            : _isError
+                ? Center(child: Text('Error'))
+                : Column(children: [
+                    _UserProfile(user: user),
+                    NotificationListener<ScrollNotification>(
+                        onNotification: (ScrollNotification notification) {
+                          if (!_isLoading &&
+                              notification.metrics.extentAfter == 0.0) {
+                            loadArticle();
+                          }
+                          return true;
+                        },
+                        child: articleList.isNotEmpty
+                            ? Column(children: [
+                                Container(
+                                  padding: EdgeInsets.only(left: 12),
+                                  child: Text(
+                                    " 投稿記事",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: '#828282'.toColor(),
+                                    ),
+                                  ),
+                                  color: '#F2F2F2'.toColor(),
+                                  height: 28,
+                                  width: double.infinity,
+                                  alignment: Alignment(-1, 0),
                                 ),
-                              ),
-                              color: '#F2F2F2'.toColor(),
-                              height: 28,
-                              width: double.infinity,
-                              alignment: Alignment(-1, 0),
-                            ),
-                            Flexible(
-                              child: ArticleListView(articleList: articleList),
-                            ),
-                          ])
-                        : Center(
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              child: Text('投稿記事がありません'),
-                            ),
-                          ));
-              }
-              return CircularProgressIndicator();
-            }),
-      ],
-    );
+                                Flexible(
+                                  child:
+                                      ArticleListView(articleList: articleList),
+                                ),
+                              ])
+                            : Center(
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  child: Text('投稿記事がありません'),
+                                ),
+                              )),
+                  ]));
   }
 
   void loadArticle() async {
@@ -100,9 +114,7 @@ class _LoginViewState extends State<LoginView> {
 
 class _UserProfile extends StatelessWidget {
   final User user;
-
   const _UserProfile({Key? key, required this.user}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -175,3 +187,9 @@ class _UserProfile extends StatelessWidget {
     );
   }
 }
+
+// class UserData {
+//   final User user;
+//   final List<Article> userarticle;
+//   UserData(this.user, this.userarticle);
+// }
