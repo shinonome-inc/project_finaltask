@@ -61,21 +61,22 @@ class _LoginPageState extends State<LoginPage> {
           navigationDelegate: (NavigationRequest request) {
             if (request.url
                 .contains('https://qiita.com/settings/applications?code')) {
-              setState(() {
-                _hascode = true;
-              });
+              // setState(() {
+              //   _hascode = true;
+              // });
+              Uri uri = Uri.parse(request.url);
+              _onAuthorizeCallbackIsCalled(uri);
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
           },
-          onPageFinished: (String url) {
-            // if (request.url
-            //     .contains('https://qiita.com/settings/applications?code')) {
-            if (_hascode) {
-              Uri uri = Uri.parse(url);
-              _onAuthorizeCallbackIsCalled(uri);
-            }
-          },
+          // onPageFinished: (String url) {
+          //   // if (request.url
+          //   //     .contains('https://qiita.com/settings/applications?code')) {
+          //   if (_hascode) {
+          //     Uri uri = Uri.parse(url);
+          //     _onAuthorizeCallbackIsCalled(uri);
+          //   }
         ),
       ),
     );
