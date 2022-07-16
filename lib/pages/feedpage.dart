@@ -5,7 +5,7 @@ import 'package:project_finaltask/pages/articlelistview.dart';
 
 import '../qiita_client.dart';
 import '../utils/color_extension.dart';
-import '../view.dart';
+import '../Emptyview.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({Key? key}) : super(key: key);

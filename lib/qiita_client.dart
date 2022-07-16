@@ -113,11 +113,6 @@ class QiitaClient {
     }
   }
 
-  // final body = jsonDecode(response.body);
-  // final user = User.fromJson(body);
-  // return user;
-  //ユーザー情報を取得
-
   Future<List<Tag>> fetchTag() async {
     final accessToken = await getAccessToken();
     final url = 'https://qiita.com/api/v2/tags?page=1&per_page=20&sort=count';
