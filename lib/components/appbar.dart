@@ -14,6 +14,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 1,
       leading: backButton
           ? IconButton(
               onPressed: () {

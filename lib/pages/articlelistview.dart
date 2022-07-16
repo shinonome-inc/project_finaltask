@@ -8,9 +8,9 @@ import '../utils/color_extension.dart';
 
 class ArticleListView extends StatelessWidget {
   final List<Article> articleList;
+
   const ArticleListView({Key? key, required this.articleList})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
