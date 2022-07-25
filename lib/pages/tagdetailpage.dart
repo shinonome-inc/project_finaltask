@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/components/appbar.dart';
 import 'package:project_finaltask/models/tag.dart';
-import 'package:project_finaltask/pages/articlelistview.dart';
+import 'package:project_finaltask/views/articlelistview.dart';
+import 'package:project_finaltask/views/errorview.dart';
 
 import '../models/article.dart';
 import '../qiita_client.dart';
@@ -26,8 +26,6 @@ class _TagDetailPageState extends State<TagDetailPage> {
     super.initState();
     loadArticle();
   }
-  //final Future<List<Article>> articles =
-  //  QiitaClient().fetchArticle(1, "", tag.id);
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +74,7 @@ class _TagDetailPageState extends State<TagDetailPage> {
                             ),
                 );
               } else if (snapshot.hasError) {
-                return Text('${snapshot.error!}');
+                return ErrorView();
               }
               return CircularProgressIndicator();
             }),

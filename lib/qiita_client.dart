@@ -7,14 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'models/article.dart';
 import 'models/tag.dart';
 import 'models/user.dart';
+import 'secret.dart';
 
 class QiitaClient {
-  final clientID = '806515abce77408e98feed9ab93cab135a43182f';
-  final clientSecret = '0c4fe0a00f290f04f905f6a982b2ed4848b615d6';
-  final keyAccessToken = 'qiita/accessToken';
-
-  // 'df9586e167ea06de68a460858b20b6a237d2b3a2'; //登録したアクセストークン
-
   String createAuthorizeUrl(String state) {
     final scope = 'read_qiita';
     return 'https://qiita.com/api/v2/oauth/authorize?client_id=$clientID&scope=$scope&state=$state';
@@ -62,8 +57,10 @@ class QiitaClient {
     if (query != '') {
       url += '&query=$query';
     }
-    final response = await http
-        .get(Uri.parse(url), headers: {'Authorization': 'Bearer $accessToken'});
+    final response = await http.get(Uri.parse(url),
+        headers: accessToken != null
+            ? {'Authorization': 'Bearer $accessToken'}
+            : null);
     if (response.statusCode == 200) {
       final List<dynamic> jsonArray = json.decode(response.body);
       return jsonArray.map((json) => Article.fromJson(json)).toList();
@@ -76,8 +73,10 @@ class QiitaClient {
     final accessToken = await getAccessToken();
     final url =
         'https://qiita.com/api/v2/tags/$tagid/items?page=$page&per_page=20';
-    final response = await http
-        .get(Uri.parse(url), headers: {'Authorization': 'Bearer $accessToken'});
+    final response = await http.get(Uri.parse(url),
+        headers: accessToken != null
+            ? {'Authorization': 'Bearer $accessToken'}
+            : null);
     if (response.statusCode == 200) {
       final List<dynamic> jsonArray = json.decode(response.body);
       return jsonArray.map((json) => Article.fromJson(json)).toList();
@@ -113,11 +112,27 @@ class QiitaClient {
     }
   }
 
+  Future<List<User>> getUserFollowees() async {
+    final accessToken = await getAccessToken();
+    final url =
+        'https://qiita.com/api/v2/users/:user_id/followees?page=1&per_page=20';
+    final response = await http
+        .get(Uri.parse(url), headers: {'Authorization': 'Bearer $accessToken'});
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonArray = json.decode(response.body);
+      return jsonArray.map((json) => User.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load user followees');
+    }
+  }
+
   Future<List<Tag>> fetchTag() async {
     final accessToken = await getAccessToken();
     final url = 'https://qiita.com/api/v2/tags?page=1&per_page=20&sort=count';
-    final response = await http
-        .get(Uri.parse(url), headers: {'Authorization': 'Bearer $accessToken'});
+    final response = await http.get(Uri.parse(url),
+        headers: accessToken != null
+            ? {'Authorization': 'Bearer $accessToken'}
+            : null);
     if (response.statusCode == 200) {
       final List<dynamic> jsonArray = json.decode(response.body);
       return jsonArray.map((json) => Tag.fromJson(json)).toList();

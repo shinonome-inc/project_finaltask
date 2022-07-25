@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/pages/articlelistview.dart';
+import 'package:project_finaltask/views/articlelistview.dart';
+import 'package:project_finaltask/views/errorview.dart';
 
 import '../../models/article.dart';
 import '../../models/user.dart';
@@ -21,9 +22,6 @@ class _LoginViewState extends State<LoginView> {
   int page = 1;
 
   bool _isError = false;
-
-  // Future<User> user = QiitaClient().getAuthenticatedUser();
-  // final Future<List<Article>> userarticle = QiitaClient().fetchUserArticle();
 
   Future<void> fetchUserData() async {
     setState(() {
@@ -55,7 +53,7 @@ class _LoginViewState extends State<LoginView> {
         body: _isDataLoading
             ? Center(child: CircularProgressIndicator())
             : _isError
-                ? Center(child: Text('Error'))
+                ? ErrorView()
                 : Column(children: [
                     _UserProfile(user: user),
                     NotificationListener<ScrollNotification>(
@@ -186,9 +184,3 @@ class _UserProfile extends StatelessWidget {
     );
   }
 }
-
-// class UserData {
-//   final User user;
-//   final List<Article> userarticle;
-//   UserData(this.user, this.userarticle);
-// }

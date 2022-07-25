@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/color_extension.dart';
+import '../../utils/color_extension.dart';
 
 class EmptyView extends StatelessWidget {
   Widget build(BuildContext context) {

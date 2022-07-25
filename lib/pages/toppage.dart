@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/bottomnavigation.dart';
 import 'package:project_finaltask/qiita_client.dart';
@@ -7,8 +6,6 @@ import '../utils/color_extension.dart';
 import 'loginpage.dart';
 
 class TopPage extends StatefulWidget {
-  // final Uri? uri;
-  // const TopPage({Key? key, required this.uri}) : super(key: key);
   @override
   _TopPageState createState() => _TopPageState();
 }
@@ -141,28 +138,3 @@ class _TopPageState extends State<TopPage> {
     ]));
   }
 }
-
-// class _LoadAccessToken extends StatefulWidget {
-//   @override
-//   _LoadAccessTokenState createState() => _LoadAccessTokenState();
-// }
-//
-// class _LoadAccessTokenState extends State<_LoadAccessToken> {
-//   @override
-//   void initState() {
-//     super.initState();
-//
-//     QiitaClient().accessTokenIsSaved().then((isSaved) {
-//       if (isSaved) {
-//         Navigator.of(context).pushReplacement(
-//           MaterialPageRoute(builder: (_) => BottomNavigation()),
-//         );
-//       }
-//     });
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     throw UnimplementedError();
-//   }
-// }

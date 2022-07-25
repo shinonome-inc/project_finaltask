@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/models/article.dart';
-import 'package:project_finaltask/pages/articlelistview.dart';
+import 'package:project_finaltask/views/articlelistview.dart';
+import 'package:project_finaltask/views/emptyview.dart';
+import 'package:project_finaltask/views/errorview.dart';
 
 import '../qiita_client.dart';
 import '../utils/color_extension.dart';
-import '../Emptyview.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({Key? key}) : super(key: key);
@@ -91,7 +91,7 @@ class _FeedPageState extends State<FeedPage> {
                           : EmptyView(),
                 );
               } else if (snapshot.hasError) {
-                return Text('${snapshot.error!}');
+                return ErrorView();
               } else
                 return const CircularProgressIndicator();
             }),

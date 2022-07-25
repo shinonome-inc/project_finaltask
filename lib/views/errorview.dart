@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/pages/toppage.dart';
 import 'package:project_finaltask/utils/color_extension.dart';
 
-class NotLoginView extends StatelessWidget {
+import '../bottomnavigation.dart';
+
+class ErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: Column(
@@ -13,8 +14,14 @@ class NotLoginView extends StatelessWidget {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Container(
+              margin: EdgeInsets.only(bottom: 42.67),
+              child: Image.asset('assets/images/networkimage.png'),
+              width: 66.67,
+              height: 66.67,
+            ),
             Text(
-              'ログインが必要です',
+              'ネットワークエラー',
               style: TextStyle(
                 fontSize: 14,
               ),
@@ -22,7 +29,7 @@ class NotLoginView extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(top: 6),
               child: Text(
-                'マイページの機能を利用するには\nログインを行っていただく必要があります。',
+                'お手数ですが電波の良い場所で\n再度読み込みをお願いします',
                 style: TextStyle(
                   fontSize: 12,
                   height: 2.0,
@@ -45,7 +52,7 @@ class NotLoginView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25.0),
                 ),
               ),
-              child: Text('ログインする',
+              child: Text('再読み込みする',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontStyle: FontStyle.normal,
@@ -56,7 +63,7 @@ class NotLoginView extends StatelessWidget {
                   )),
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => TopPage()),
+                  MaterialPageRoute(builder: (_) => BottomNavigation()),
                 );
               },
             ),
