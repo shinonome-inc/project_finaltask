@@ -1,6 +1,7 @@
 # project_finaltask
 
 セキュリティ保護のためsecret.dartファイルをgitの管理下から外しております。[こちら](https://drive.google.com/drive/u/0/folders/1X6landdt6KsrVmRnQ6oy-22eMBZHvyEw)からダウンロードの上、lib/secret.keyへの追加をお願いします。
+
 ![image](https://user-images.githubusercontent.com/83227352/181390801-82fc30bb-a3b8-4abf-b445-384d269d3724.png)
 
 
