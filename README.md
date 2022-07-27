@@ -1,6 +1,6 @@
 # project_finaltask
 
-A new Flutter project.
+セキュリティ保護のためsecret.dartファイルをgitの管理下から外しております。こちらからダウンロードの上、lib/secret.keyへの追加をお願いします。
 
 ## Getting Started
 
