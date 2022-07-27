@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:project_finaltask/secretkey.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/article.dart';
@@ -9,10 +10,6 @@ import 'models/tag.dart';
 import 'models/user.dart';
 
 class QiitaClient {
-  final clientID = '806515abce77408e98feed9ab93cab135a43182f';
-  final clientSecret = '0c4fe0a00f290f04f905f6a982b2ed4848b615d6';
-  final keyAccessToken = 'qiita/accessToken';
-
   String createAuthorizeUrl(String state) {
     final scope = 'read_qiita';
     return 'https://qiita.com/api/v2/oauth/authorize?client_id=$clientID&scope=$scope&state=$state';
