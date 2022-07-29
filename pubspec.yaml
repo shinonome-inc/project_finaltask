@@ -28,6 +28,8 @@ dependencies:
   flappy_search_bar: 1.7.2
   url_launcher: 6.0.10
   webview_flutter: 2.0.7
+  shared_preferences: 2.0.15
+  uni_links: 0.5.1
 
 
 
@@ -46,6 +48,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/backgroundimage.png
+    - assets/images/networkimage.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

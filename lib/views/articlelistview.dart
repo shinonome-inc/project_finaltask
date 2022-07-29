@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/pages/articlepage.dart';
 import 'package:project_finaltask/utils/changedate.dart';
@@ -8,9 +7,9 @@ import '../utils/color_extension.dart';
 
 class ArticleListView extends StatelessWidget {
   final List<Article> articleList;
+
   const ArticleListView({Key? key, required this.articleList})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
