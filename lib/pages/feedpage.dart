@@ -99,14 +99,10 @@ class _FeedPageState extends State<FeedPage> {
   }
 
   void loadArticle() async {
-    setState(() {
-      _isLoading = true;
-    });
+    _isLoading = true;
     List<Article> results = await QiitaClient().fetchArticle(page, searchword);
-    setState(() {
-      page++;
-      articleList.addAll(results);
-    });
+    page++;
+    articleList.addAll(results);
     setState(() {
       _isLoading = false;
     });

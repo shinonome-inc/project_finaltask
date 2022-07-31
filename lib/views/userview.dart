@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/pages/followpage.dart';
-import 'package:project_finaltask/views/articlelistview.dart';
 import 'package:project_finaltask/views/errorview.dart';
+import 'package:project_finaltask/views/user_articlelistview.dart';
 
-import '../../models/article.dart';
-import '../../models/user.dart';
-import '../../qiita_client.dart';
-import '../../utils/color_extension.dart';
+import '../models/article.dart';
+import '../models/user.dart';
+import '../qiita_client.dart';
+import '../utils/color_extension.dart';
 
-class LoginView extends StatefulWidget {
+class UserView extends StatefulWidget {
+  late final User user;
+  UserView(this.user);
+
   @override
-  _LoginViewState createState() => _LoginViewState();
+  _UserViewState createState() => _UserViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _UserViewState extends State<UserView> {
   List<Article> articleList = [];
-  List<Article> userarticle = [];
-  late User user;
+  // late User user;
   bool _isDataLoading = false;
   bool _isLoading = false;
   int page = 1;
@@ -28,8 +30,9 @@ class _LoginViewState extends State<LoginView> {
       _isDataLoading = true;
     });
     try {
-      user = await QiitaClient().getAuthenticatedUser();
-      userarticle = await QiitaClient().fetchUserArticle();
+      // user = await QiitaClient().getAuthenticatedUser();
+      articleList =
+          await QiitaClient().fetchArticle(page, 'user%3A${widget.user.id}');
       _isDataLoading = false;
     } catch (e) {
       _isError = true;
@@ -55,17 +58,18 @@ class _LoginViewState extends State<LoginView> {
             : _isError
                 ? ErrorView()
                 : Column(children: [
-                    _UserProfile(user: user),
+                    _UserProfile(user: widget.user),
                     NotificationListener<ScrollNotification>(
-                        onNotification: (ScrollNotification notification) {
-                          if (!_isLoading &&
-                              notification.metrics.extentAfter == 0.0) {
-                            loadArticle();
-                          }
-                          return true;
-                        },
-                        child: articleList.isNotEmpty
-                            ? Column(children: [
+                      onNotification: (ScrollNotification notification) {
+                        if (!_isLoading &&
+                            notification.metrics.extentAfter == 0.0) {
+                          loadArticle();
+                        }
+                        return true;
+                      },
+                      child: articleList.isNotEmpty
+                          ? Expanded(
+                              child: Column(children: [
                                 Container(
                                   padding: EdgeInsets.only(left: 12),
                                   child: Text(
@@ -81,16 +85,21 @@ class _LoginViewState extends State<LoginView> {
                                   alignment: Alignment(-1, 0),
                                 ),
                                 Flexible(
-                                  child:
-                                      ArticleListView(articleList: articleList),
+                                  child: UserArticleListView(
+                                      articleList: articleList),
                                 ),
-                              ])
-                            : Center(
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  child: Text('投稿記事がありません'),
+                              ]),
+                            )
+                          : Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  '投稿記事がありません',
+                                  style: TextStyle(color: '#B2B2B2'.toColor()),
                                 ),
-                              )),
+                              ),
+                            ),
+                    ),
                   ]));
   }
 
@@ -98,7 +107,8 @@ class _LoginViewState extends State<LoginView> {
     setState(() {
       _isLoading = true;
     });
-    List<Article> results = await QiitaClient().fetchUserArticle();
+    List<Article> results =
+        await QiitaClient().fetchArticle(page, 'user%3A${widget.user.id}');
     setState(() {
       page++;
       articleList.addAll(results);
@@ -114,9 +124,10 @@ class _UserProfile extends StatelessWidget {
   const _UserProfile({Key? key, required this.user}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
+    return Container(
+      padding: EdgeInsets.fromLTRB(24, 20, 24, 0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
@@ -124,10 +135,10 @@ class _UserProfile extends StatelessWidget {
             radius: 40,
           ),
           SizedBox(height: 4),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 4),
             child: Text(
-              user.name,
+              user.name ?? user.id,
               style: TextStyle(fontSize: 14),
             ),
           ),
@@ -136,16 +147,14 @@ class _UserProfile extends StatelessWidget {
                 fontSize: 12,
                 color: '#828282'.toColor(),
               )),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Text(user.description,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: '#828282'.toColor(),
-                )),
-          ),
+          SizedBox(height: 8),
+          Text(user.description ?? '未設定',
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 12,
+                color: '#828282'.toColor(),
+              )),
           Row(
             children: [
               Text('${user.followeescount}',
@@ -156,10 +165,10 @@ class _UserProfile extends StatelessWidget {
                   )),
               TextButton(
                   onPressed: () {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) {
-    return FollowPage(user);
-                  }));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return FollowPage(user);
+                    }));
                   },
                   child: Text('フォロー中',
                       style: TextStyle(
@@ -183,7 +192,6 @@ class _UserProfile extends StatelessWidget {
                       ))),
             ],
           ),
-          SizedBox(height: 8)
         ],
       ),
     );

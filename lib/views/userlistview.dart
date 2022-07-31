@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/user.dart';
+import '../pages/userpage.dart';
 import '../utils/color_extension.dart';
 
 class UserListView extends StatelessWidget {
@@ -32,12 +32,14 @@ class UserListView extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             backgroundImage: NetworkImage(user.iconUrl),
+                            radius: 16,
                           ),
                           SizedBox(width: 8),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                user.name,
+                                user.name!,
                                 style: TextStyle(fontSize: 14),
                               ),
                               Text('@${user.id}',
@@ -57,7 +59,7 @@ class UserListView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        user.description,
+                        user.description!,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -69,10 +71,10 @@ class UserListView extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  // Navigator.of(context)
-                  //     .push(MaterialPageRoute(builder: (context) {
-                  //   return UserPage(user);
-                  // }));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return UserPage(user);
+                  }));
                 });
       },
     );

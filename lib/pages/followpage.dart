@@ -62,15 +62,11 @@ class _FollowPageState extends State<FollowPage> {
   }
 
   void loadUser() async {
-    setState(() {
-      _isLoading = true;
-    });
+    _isLoading = true;
     List<User> results =
         await QiitaClient().getUserFollowees(page, widget.user.id);
-    setState(() {
-      page++;
-      userList.addAll(results);
-    });
+    page++;
+    userList.addAll(results);
     setState(() {
       _isLoading = false;
     });
