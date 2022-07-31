@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_finaltask/pages/followpage.dart';
 import 'package:project_finaltask/views/articlelistview.dart';
 import 'package:project_finaltask/views/errorview.dart';
 
@@ -17,7 +18,6 @@ class _LoginViewState extends State<LoginView> {
   List<Article> userarticle = [];
   late User user;
   bool _isDataLoading = false;
-
   bool _isLoading = false;
   int page = 1;
 
@@ -155,7 +155,12 @@ class _UserProfile extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   )),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) {
+    return FollowPage(user);
+                  }));
+                  },
                   child: Text('フォロー中',
                       style: TextStyle(
                         color: '#828282'.toColor(),

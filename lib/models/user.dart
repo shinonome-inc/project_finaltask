@@ -5,6 +5,7 @@ class User {
   final String description;
   final int followeescount;
   final int followerscount;
+  final int itemscount;
 
   User(
       {required this.id,
@@ -12,7 +13,8 @@ class User {
       required this.name,
       required this.description,
       required this.followeescount,
-      required this.followerscount});
+      required this.followerscount,
+      required this.itemscount});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -22,6 +24,7 @@ class User {
       description: json['description'] ?? '未設定',
       followeescount: json['followees_count'],
       followerscount: json['followers_count'],
+      itemscount: json['items_count'],
     );
   }
 }

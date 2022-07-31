@@ -9,7 +9,10 @@ class ArticlePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent(text: 'Article', backButton: true),
+      appBar: AppBarComponent(
+        text: 'Article',
+        backButton: true,
+      ),
       body: Center(
         child: WebView(
           initialUrl: article.url,

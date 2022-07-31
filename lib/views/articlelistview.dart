@@ -47,11 +47,12 @@ class ArticleListView extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ArticlePage(article: article)));
-                });
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return ArticlePage(article: article);
+                  }));
+                },
+              );
       },
     );
   }

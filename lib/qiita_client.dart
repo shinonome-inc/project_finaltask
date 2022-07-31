@@ -112,10 +112,10 @@ class QiitaClient {
     }
   }
 
-  Future<List<User>> getUserFollowees() async {
+  Future<List<User>> getUserFollowees(int page, String? userid) async {
     final accessToken = await getAccessToken();
     final url =
-        'https://qiita.com/api/v2/users/:user_id/followees?page=1&per_page=20';
+        'https://qiita.com/api/v2/users/$userid/followees?page=$page&per_page=20';
     final response = await http
         .get(Uri.parse(url), headers: {'Authorization': 'Bearer $accessToken'});
     if (response.statusCode == 200) {

@@ -16,7 +16,6 @@ class FeedPage extends StatefulWidget {
 class _FeedPageState extends State<FeedPage> {
   String searchword = '';
   List<Article> articleList = [];
-
   bool _isLoading = false;
   int page = 1;
 
