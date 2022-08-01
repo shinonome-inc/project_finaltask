@@ -23,7 +23,9 @@ class _MyPageState extends State<MyPage> {
 
   void checklogin() async {
     _isLogined = await QiitaClient().accessTokenIsSaved();
-    user = await QiitaClient().getAuthenticatedUser();
+    if (_isLogined!) {
+      user = await QiitaClient().getAuthenticatedUser();
+    }
     setState(() {});
   }
 

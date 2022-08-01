@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_finaltask/pages/followerpage.dart';
 import 'package:project_finaltask/pages/followpage.dart';
 import 'package:project_finaltask/views/errorview.dart';
 import 'package:project_finaltask/views/user_articlelistview.dart';
@@ -18,7 +19,6 @@ class UserView extends StatefulWidget {
 
 class _UserViewState extends State<UserView> {
   List<Article> articleList = [];
-  // late User user;
   bool _isDataLoading = false;
   bool _isLoading = false;
   int page = 1;
@@ -30,7 +30,6 @@ class _UserViewState extends State<UserView> {
       _isDataLoading = true;
     });
     try {
-      // user = await QiitaClient().getAuthenticatedUser();
       articleList =
           await QiitaClient().fetchArticle(page, 'user%3A${widget.user.id}');
       _isDataLoading = false;
@@ -183,7 +182,12 @@ class _UserProfile extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   )),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return FollowerPage(user);
+                    }));
+                  },
                   child: Text('フォロワー',
                       style: TextStyle(
                         color: '#828282'.toColor(),
