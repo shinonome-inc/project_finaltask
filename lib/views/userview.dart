@@ -103,15 +103,11 @@ class _UserViewState extends State<UserView> {
   }
 
   void loadArticle() async {
-    setState(() {
-      _isLoading = true;
-    });
+    _isLoading = true;
     List<Article> results =
         await QiitaClient().fetchArticle(page, 'user%3A${widget.user.id}');
-    setState(() {
-      page++;
-      articleList.addAll(results);
-    });
+    page++;
+    articleList.addAll(results);
     setState(() {
       _isLoading = false;
     });
@@ -156,12 +152,15 @@ class _UserProfile extends StatelessWidget {
               )),
           Row(
             children: [
-              Text('${user.followeescount}',
-                  style: TextStyle(
-                    color: '#000000'.toColor(),
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  )),
+              Text(
+                '${user.followeescount}',
+                style: TextStyle(
+                  color: '#000000'.toColor(),
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+                strutStyle: StrutStyle(height: 1.3),
+              ),
               TextButton(
                   onPressed: () {
                     Navigator.of(context)
@@ -175,12 +174,15 @@ class _UserProfile extends StatelessWidget {
                         fontStyle: FontStyle.normal,
                         fontSize: 12,
                       ))),
-              Text('${user.followerscount}',
-                  style: TextStyle(
-                    color: '#000000'.toColor(),
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  )),
+              Text(
+                '${user.followerscount}',
+                style: TextStyle(
+                  color: '#000000'.toColor(),
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+                strutStyle: StrutStyle(height: 1.3),
+              ),
               TextButton(
                   onPressed: () {
                     Navigator.of(context)

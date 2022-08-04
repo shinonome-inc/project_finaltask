@@ -14,7 +14,7 @@ class FeedPage extends StatefulWidget {
 }
 
 class _FeedPageState extends State<FeedPage> {
-  String searchword = '';
+  String searchWord = '';
   List<Article> articleList = [];
   bool _isLoading = false;
   int page = 1;
@@ -27,7 +27,7 @@ class _FeedPageState extends State<FeedPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(searchword);
+    print(searchWord);
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -60,7 +60,7 @@ class _FeedPageState extends State<FeedPage> {
                   onSubmitted: (String word) {
                     articleList.clear();
                     setState(() {
-                      searchword = word;
+                      searchWord = word;
                       loadArticle();
                     });
                   }),
@@ -100,7 +100,7 @@ class _FeedPageState extends State<FeedPage> {
 
   void loadArticle() async {
     _isLoading = true;
-    List<Article> results = await QiitaClient().fetchArticle(page, searchword);
+    List<Article> results = await QiitaClient().fetchArticle(page, searchWord);
     page++;
     articleList.addAll(results);
     setState(() {
