@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/pages/feedpage.dart';
 import 'package:project_finaltask/pages/mypage/mypage.dart';
-import 'package:project_finaltask/pages/settingpage.dart';
+import 'package:project_finaltask/pages/settingspage/settingspage.dart';
 import 'package:project_finaltask/pages/tagpage.dart';
 
 import 'utils/color_extension.dart';
@@ -19,7 +19,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     FeedPage(),
     TagPage(),
     MyPage(),
-    Setting(),
+    SettingsPage(),
   ];
 
   @override
