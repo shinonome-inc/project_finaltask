@@ -151,6 +151,8 @@ class _UserProfile extends StatelessWidget {
                 color: '#828282'.toColor(),
               )),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
             children: [
               Text(
                 '${user.followeescount}',
@@ -159,7 +161,6 @@ class _UserProfile extends StatelessWidget {
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
-                strutStyle: StrutStyle(height: 1.3),
               ),
               TextButton(
                   onPressed: () {
@@ -168,12 +169,14 @@ class _UserProfile extends StatelessWidget {
                       return FollowPage(user);
                     }));
                   },
-                  child: Text('フォロー中',
-                      style: TextStyle(
-                        color: '#828282'.toColor(),
-                        fontStyle: FontStyle.normal,
-                        fontSize: 12,
-                      ))),
+                  child: Text(
+                    'フォロー中',
+                    style: TextStyle(
+                      color: '#828282'.toColor(),
+                      fontStyle: FontStyle.normal,
+                      fontSize: 12,
+                    ),
+                  )),
               Text(
                 '${user.followerscount}',
                 style: TextStyle(
@@ -181,7 +184,6 @@ class _UserProfile extends StatelessWidget {
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
-                strutStyle: StrutStyle(height: 1.3),
               ),
               TextButton(
                   onPressed: () {
@@ -190,12 +192,14 @@ class _UserProfile extends StatelessWidget {
                       return FollowerPage(user);
                     }));
                   },
-                  child: Text('フォロワー',
-                      style: TextStyle(
-                        color: '#828282'.toColor(),
-                        fontStyle: FontStyle.normal,
-                        fontSize: 12,
-                      ))),
+                  child: Text(
+                    'フォロワー',
+                    style: TextStyle(
+                      color: '#828282'.toColor(),
+                      fontStyle: FontStyle.normal,
+                      fontSize: 12,
+                    ),
+                  )),
             ],
           ),
         ],
