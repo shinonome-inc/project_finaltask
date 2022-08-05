@@ -83,16 +83,11 @@ class _TagDetailPageState extends State<TagDetailPage> {
   }
 
   void loadArticle() async {
-    //新たなデータを取得
-    setState(() {
-      _isLoading = true;
-    });
+    _isLoading = true;
     List<Article> results =
         await QiitaClient().fetchTagArticle(page, widget.tag.id);
-    setState(() {
-      page++;
-      articleList.addAll(results);
-    });
+    page++;
+    articleList.addAll(results);
     setState(() {
       _isLoading = false;
     });

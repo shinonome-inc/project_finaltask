@@ -83,7 +83,7 @@ class QiitaClient {
     } else {
       throw Exception('Failed to load tag article');
     }
-  }
+  }//tagの記事を取得
 
   Future<List<Article>> fetchUserArticle() async {
     final accessToken = await getAccessToken();
@@ -97,7 +97,7 @@ class QiitaClient {
     } else {
       throw Exception('Fail to load user article');
     }
-  }
+  }//自分の記事を取得
 
   Future<User> getAuthenticatedUser() async {
     final accessToken = await getAccessToken();
@@ -110,12 +110,12 @@ class QiitaClient {
     } else {
       throw Exception('Failed to load User');
     }
-  }
+  }//自分の情報を取得
 
-  Future<List<User>> getUserFollowees() async {
+  Future<List<User>> getUserFollowees(int page, String? userid) async {
     final accessToken = await getAccessToken();
     final url =
-        'https://qiita.com/api/v2/users/:user_id/followees?page=1&per_page=20';
+        'https://qiita.com/api/v2/users/$userid/followees?page=$page&per_page=20';
     final response = await http
         .get(Uri.parse(url), headers: {'Authorization': 'Bearer $accessToken'});
     if (response.statusCode == 200) {
@@ -123,6 +123,20 @@ class QiitaClient {
       return jsonArray.map((json) => User.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load user followees');
+    }
+  }
+
+  Future<List<User>> getUserFollowers(int page, String? userid) async {
+    final accessToken = await getAccessToken();
+    final url =
+        'https://qiita.com/api/v2/users/$userid/followers?page=$page&per_page=20';
+    final response = await http
+        .get(Uri.parse(url), headers: {'Authorization': 'Bearer $accessToken'});
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonArray = json.decode(response.body);
+      return jsonArray.map((json) => User.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load user followers');
     }
   }
 

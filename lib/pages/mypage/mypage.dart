@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/components/appbar.dart';
-import 'package:project_finaltask/pages/mypage/loginview.dart';
+import 'package:project_finaltask/views/userview.dart';
 
+import '../../models/user.dart';
 import '../../qiita_client.dart';
 import 'not_loginview.dart';
 
@@ -12,6 +13,7 @@ class MyPage extends StatefulWidget {
 
 class _MyPageState extends State<MyPage> {
   bool? _isLogined;
+  User? user;
 
   @override
   void initState() {
@@ -21,6 +23,9 @@ class _MyPageState extends State<MyPage> {
 
   void checklogin() async {
     _isLogined = await QiitaClient().accessTokenIsSaved();
+    if (_isLogined!) {
+      user = await QiitaClient().getAuthenticatedUser();
+    }
     setState(() {});
   }
 
@@ -32,7 +37,7 @@ class _MyPageState extends State<MyPage> {
           child: _isLogined == null
               ? CircularProgressIndicator()
               : _isLogined!
-                  ? LoginView()
+                  ? UserView(user!)
                   : NotLoginView()),
     );
   }
