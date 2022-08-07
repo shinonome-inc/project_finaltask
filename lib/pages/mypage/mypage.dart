@@ -18,10 +18,10 @@ class _MyPageState extends State<MyPage> {
   @override
   void initState() {
     super.initState();
-    checklogin();
+    checkLogin();
   }
 
-  void checklogin() async {
+  void checkLogin() async {
     _isLogined = await QiitaClient().accessTokenIsSaved();
     if (_isLogined!) {
       user = await QiitaClient().getAuthenticatedUser();
