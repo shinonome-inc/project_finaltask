@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/components/appbar.dart';
 import 'package:project_finaltask/pages/toppage.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../components/webview_modal_component.dart';
 import '../qiita_client.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,22 +23,18 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarComponent(text: 'Qiita Auth'),
-      body: Center(
-        child: WebView(
-          initialUrl: QiitaClient().createAuthorizeUrl(_state),
-          navigationDelegate: (NavigationRequest request) {
-            if (request.url
-                .contains('https://qiita.com/settings/applications?code')) {
-              Uri uri = Uri.parse(request.url);
-              _onAuthorizeCallbackIsCalled(uri);
-              return NavigationDecision.prevent;
-            }
-            return NavigationDecision.navigate;
-          },
-        ),
-      ),
+    return WebViewModalComponent(
+      title: 'Qiita Auth',
+      initialUrl: QiitaClient().createAuthorizeUrl(_state),
+      navigationDelegate: (NavigationRequest request) {
+        if (request.url
+            .contains('https://qiita.com/settings/applications?code')) {
+          Uri uri = Uri.parse(request.url);
+          _onAuthorizeCallbackIsCalled(uri);
+          return NavigationDecision.prevent;
+        }
+        return NavigationDecision.navigate;
+      },
     );
   }
 
@@ -47,7 +43,8 @@ class _LoginPageState extends State<LoginPage> {
         await QiitaClient().createAccessTokenFromCallbackUri(uri, _state);
     // リダイレクトURLからアクセストークンを受け取る
     await QiitaClient().saveAccessToken(accessToken);
-    print(accessToken);
+    print('成功した');
+    print('You are successed!!!');
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => TopPage()),
     );

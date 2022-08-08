@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/pages/articlepage.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:project_finaltask/utils/changedate.dart';
 
+import '../components/webview_modal_component.dart';
 import '../models/article.dart';
 import '../utils/color_extension.dart';
 
@@ -47,10 +48,13 @@ class ArticleListView extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return ArticlePage(article: article);
-                  }));
+                  showCupertinoModalBottomSheet(
+                      enableDrag: true,
+                      context: context,
+                      builder: (context) {
+                        return WebViewModalComponent(
+                            title: 'Article', initialUrl: article.url);
+                      });
                 },
               );
       },

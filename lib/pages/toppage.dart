@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:project_finaltask/bottomnavigation.dart';
 import 'package:project_finaltask/qiita_client.dart';
 
@@ -18,7 +19,7 @@ class _TopPageState extends State<TopPage> {
     QiitaClient().accessTokenIsSaved().then((isSaved) {
       if (isSaved) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => BottomNavigation()),
+          MaterialWithModalsPageRoute(builder: (context) => BottomNavigation()),
         );
       }
     });
@@ -79,17 +80,11 @@ class _TopPageState extends State<TopPage> {
                       height: 50,
                       child: TextButton(
                         onPressed: () {
-                          showModalBottomSheet(
+                          showCupertinoModalBottomSheet(
+                              enableDrag: true,
                               context: context,
-                              isScrollControlled: true,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(20))),
                               builder: (context) {
-                                return Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.95,
-                                    child: SafeArea(child: LoginPage()));
+                                return LoginPage();
                               });
                         },
                         style: TextButton.styleFrom(
@@ -114,8 +109,9 @@ class _TopPageState extends State<TopPage> {
                   ),
                   TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => BottomNavigation()));
+                        Navigator.of(context).pushReplacement(
+                            MaterialWithModalsPageRoute(
+                                builder: (context) => BottomNavigation()));
                       },
                       child: Text(
                         'ログインせずに利用する',
