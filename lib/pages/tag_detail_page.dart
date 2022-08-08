@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/components/appbar_component.dart';
 import 'package:project_finaltask/models/tag.dart';
@@ -65,7 +66,7 @@ class _TagDetailPageState extends State<TagDetailPage> {
                           ),
                         ])
                       : _isLoading
-                          ? CircularProgressIndicator()
+                          ? CupertinoActivityIndicator()
                           : Center(
                               child: Container(
                                 padding: EdgeInsets.all(10),
@@ -76,7 +77,7 @@ class _TagDetailPageState extends State<TagDetailPage> {
               } else if (snapshot.hasError) {
                 return ErrorView();
               }
-              return CircularProgressIndicator();
+              return CupertinoActivityIndicator();
             }),
       ),
     );

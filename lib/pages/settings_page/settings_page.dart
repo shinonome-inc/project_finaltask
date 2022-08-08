@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -51,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
         appBar: AppBarComponent(text: 'Settings'),
         body: _isLogined == null
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: CupertinoActivityIndicator())
             : Container(
                 color: '#F7F7F7'.toColor(),
                 child: ListView(

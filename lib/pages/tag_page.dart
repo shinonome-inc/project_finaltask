@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:project_finaltask/components/appbar_component.dart';
@@ -26,7 +27,7 @@ class _TagPageState extends State<TagPage> {
               if (snapshot.hasData) {
                 return TagGridView(tags: snapshot.data!.toList());
               }
-              return CircularProgressIndicator();
+              return CupertinoActivityIndicator();
             }),
       ),
     );

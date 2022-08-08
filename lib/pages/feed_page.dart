@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/models/article.dart';
 import 'package:project_finaltask/views/article_list_view.dart';
@@ -86,13 +87,13 @@ class _FeedPageState extends State<FeedPage> {
                   child: articleList.isNotEmpty
                       ? ArticleListView(articleList: articleList)
                       : _isLoading
-                          ? CircularProgressIndicator()
+                          ? CupertinoActivityIndicator()
                           : EmptyView(),
                 );
               } else if (snapshot.hasError) {
                 return ErrorView();
               } else
-                return const CircularProgressIndicator();
+                return const CupertinoActivityIndicator();
             }),
       ),
     );
