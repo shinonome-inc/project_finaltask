@@ -43,8 +43,6 @@ class _LoginPageState extends State<LoginPage> {
         await QiitaClient().createAccessTokenFromCallbackUri(uri, _state);
     // リダイレクトURLからアクセストークンを受け取る
     await QiitaClient().saveAccessToken(accessToken);
-    print('成功した');
-    print('You are successed!!!');
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => TopPage()),
     );
