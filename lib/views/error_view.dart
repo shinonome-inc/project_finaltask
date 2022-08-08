@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/utils/color_extension.dart';
 
-import '../bottomnavigation.dart';
+import '../bottom_navigation.dart';
 
 class ErrorView extends StatelessWidget {
   Widget build(BuildContext context) {

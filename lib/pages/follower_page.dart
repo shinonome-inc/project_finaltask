@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/components/appbar.dart';
+import 'package:project_finaltask/components/appbar_component.dart';
 import 'package:project_finaltask/qiita_client.dart';
 
 import '../models/user.dart';
-import '../views/emptyview.dart';
-import '../views/errorview.dart';
-import '../views/userlistview.dart';
+import '../views/empty_view.dart';
+import '../views/error_view.dart';
+import '../views/user_list_view.dart';
 
-class FollowPage extends StatefulWidget {
+class FollowerPage extends StatefulWidget {
   late final User user;
-  FollowPage(this.user);
+  FollowerPage(this.user);
 
   @override
-  _FollowPageState createState() => _FollowPageState();
+  _FollowerPageState createState() => _FollowerPageState();
 }
 
-class _FollowPageState extends State<FollowPage> {
+class _FollowerPageState extends State<FollowerPage> {
   List<User> userList = [];
   bool _isLoading = false;
   int page = 1;
@@ -30,12 +30,12 @@ class _FollowPageState extends State<FollowPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        text: 'Follows',
+        text: 'Followers',
         backButton: true,
       ),
       body: Center(
         child: FutureBuilder<List<User>>(
-            future: QiitaClient().getUserFollowees(page, widget.user.id),
+            future: QiitaClient().getUserFollowers(page, widget.user.id),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return NotificationListener<ScrollNotification>(
@@ -64,7 +64,7 @@ class _FollowPageState extends State<FollowPage> {
   void loadUser() async {
     _isLoading = true;
     List<User> results =
-        await QiitaClient().getUserFollowees(page, widget.user.id);
+        await QiitaClient().getUserFollowers(page, widget.user.id);
     page++;
     userList.addAll(results);
     setState(() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/pages/toppage.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:project_finaltask/pages/top_page.dart';
 
 import 'utils/color_extension.dart';
 
@@ -16,7 +17,12 @@ class MyApp extends StatelessWidget {
       title: 'My App',
       theme: ThemeData(
           primaryIconTheme: IconThemeData(color: '#468300'.toColor())),
-      home: TopPage(),
+      onGenerateRoute: (settings) {
+        return MaterialWithModalsPageRoute(
+          settings: settings,
+          builder: (context) => TopPage(),
+        );
+      },
     );
   }
 }

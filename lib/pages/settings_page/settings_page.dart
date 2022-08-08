@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:project_finaltask/pages/settingspage/privacypolicyscreen.dart';
-import 'package:project_finaltask/pages/settingspage/tosscreen.dart';
+import 'package:project_finaltask/pages/settings_page/privacy_policy_screen.dart';
+import 'package:project_finaltask/pages/settings_page/settings_list_item_component.dart';
+import 'package:project_finaltask/pages/settings_page/tos_screen.dart';
 import 'package:project_finaltask/utils/color_extension.dart';
 
-import '../../components/appbar.dart';
+import '../../components/appbar_component.dart';
 import '../../qiita_client.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -67,21 +67,21 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     ),
                     SizedBox(height: 8),
-                    ListItem(
+                    SettingsListItemComponent(
                         title: 'プライバシーポリシー',
                         trailing: Icon(Icons.arrow_forward_ios),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (_) => PrivacyPolicyScreen()));
                         }),
-                    ListItem(
+                    SettingsListItemComponent(
                         title: '利用規約',
                         trailing: Icon(Icons.arrow_forward_ios),
                         onTap: () {
                           Navigator.of(context).push(
                               MaterialPageRoute(builder: (_) => ToSScreen()));
                         }),
-                    ListItem(
+                    SettingsListItemComponent(
                         title: 'アプリバージョン',
                         trailing: Text(
                           'v${_packageInfo.version}',
@@ -104,7 +104,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                               ),
                               SizedBox(height: 8),
-                              ListItem(
+                              SettingsListItemComponent(
                                   title: 'ログアウトする',
                                   trailing: SizedBox.shrink(),
                                   onTap: () {}),
@@ -114,36 +114,5 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
               ));
-  }
-}
-
-class ListItem extends StatelessWidget {
-  ListItem({
-    required this.title,
-    required this.trailing,
-    required this.onTap,
-  });
-
-  final String title;
-  final Widget trailing;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 40,
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      decoration: BoxDecoration(
-          color: '#FFFFFF'.toColor(),
-          border: Border(
-              bottom: BorderSide(color: '#E0E0E0'.toColor(), width: 0.5))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(title),
-          GestureDetector(child: trailing, onTap: onTap),
-        ],
-      ),
-    );
   }
 }

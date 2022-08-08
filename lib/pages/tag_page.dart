@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/components/appbar.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:project_finaltask/components/appbar_component.dart';
 import 'package:project_finaltask/models/tag.dart';
-import 'package:project_finaltask/pages/tagdetailpage.dart';
+import 'package:project_finaltask/pages/tag_detail_page.dart';
 import 'package:project_finaltask/qiita_client.dart';
 import 'package:project_finaltask/utils/color_extension.dart';
 
@@ -84,7 +85,7 @@ class TagGridView extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
+                    .push(MaterialWithModalsPageRoute(builder: (context) {
                   return TagDetailPage(tag);
                 }));
               });

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../models/user.dart';
-import '../pages/userpage.dart';
+import '../pages/user_page.dart';
 import '../utils/color_extension.dart';
 
 class UserListView extends StatelessWidget {
@@ -72,7 +73,7 @@ class UserListView extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
+                      .push(MaterialWithModalsPageRoute(builder: (context) {
                     return UserPage(user);
                   }));
                 });
