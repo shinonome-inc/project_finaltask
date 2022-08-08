@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:project_finaltask/utils/changedate.dart';
+import 'package:project_finaltask/utils/change_date.dart';
 
 import '../components/webview_modal_component.dart';
 import '../models/article.dart';
 import '../utils/color_extension.dart';
 
-class UserArticleListView extends StatelessWidget {
+class ArticleListView extends StatelessWidget {
   final List<Article> articleList;
 
-  const UserArticleListView({Key? key, required this.articleList})
+  const ArticleListView({Key? key, required this.articleList})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -22,6 +22,9 @@ class UserArticleListView extends StatelessWidget {
                 child: CircularProgressIndicator(),
               )
             : ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(article.user.iconUrl),
+                ),
                 title: Text(
                   article.title,
                   maxLines: 2,
@@ -34,10 +37,10 @@ class UserArticleListView extends StatelessWidget {
                         bottom:
                             BorderSide(color: '#B2B2B2'.toColor(), width: 0.5)),
                   ),
-                  child: Container(
+                  child: Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
-                      '投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}',
+                      '@${article.user.id} 投稿日:${changeDateFormat(article.date)} LGTM:${article.lgtm.toString()}',
                       style: TextStyle(
                         fontSize: 12,
                       ),

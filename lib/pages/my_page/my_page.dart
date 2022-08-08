@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/components/appbar.dart';
-import 'package:project_finaltask/views/userview.dart';
+import 'package:project_finaltask/components/appbar_component.dart';
+import 'package:project_finaltask/views/use_rview.dart';
 
 import '../../models/user.dart';
 import '../../qiita_client.dart';
-import 'not_loginview.dart';
+import 'not_login_view.dart';
 
 class MyPage extends StatefulWidget {
   @override

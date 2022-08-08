@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/models/article.dart';
-import 'package:project_finaltask/views/articlelistview.dart';
-import 'package:project_finaltask/views/emptyview.dart';
-import 'package:project_finaltask/views/errorview.dart';
+import 'package:project_finaltask/views/article_list_view.dart';
+import 'package:project_finaltask/views/empty_view.dart';
+import 'package:project_finaltask/views/error_view.dart';
 
 import '../qiita_client.dart';
 import '../utils/color_extension.dart';

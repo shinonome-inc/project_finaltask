@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/components/appbar.dart';
+import 'package:project_finaltask/components/appbar_component.dart';
 import 'package:project_finaltask/models/tag.dart';
-import 'package:project_finaltask/views/articlelistview.dart';
-import 'package:project_finaltask/views/errorview.dart';
+import 'package:project_finaltask/views/article_list_view.dart';
+import 'package:project_finaltask/views/error_view.dart';
 
 import '../models/article.dart';
 import '../qiita_client.dart';

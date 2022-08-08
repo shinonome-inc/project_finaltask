@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/pages/toppage.dart';
+import 'package:project_finaltask/pages/top_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../components/webview_modal_component.dart';

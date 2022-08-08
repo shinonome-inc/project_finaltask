@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/pages/feedpage.dart';
-import 'package:project_finaltask/pages/mypage/mypage.dart';
-import 'package:project_finaltask/pages/settingspage/settingspage.dart';
-import 'package:project_finaltask/pages/tagpage.dart';
+import 'package:project_finaltask/pages/feed_page.dart';
+import 'package:project_finaltask/pages/my_page/my_page.dart';
+import 'package:project_finaltask/pages/settings_page/settings_page.dart';
+import 'package:project_finaltask/pages/tag_page.dart';
 
 import 'utils/color_extension.dart';
 

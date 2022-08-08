@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:project_finaltask/bottomnavigation.dart';
+import 'package:project_finaltask/bottom_navigation.dart';
 import 'package:project_finaltask/qiita_client.dart';
 
 import '../utils/color_extension.dart';
-import 'loginpage.dart';
+import 'login_page.dart';
 
 class TopPage extends StatefulWidget {
   @override

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/pages/followerpage.dart';
-import 'package:project_finaltask/pages/followpage.dart';
-import 'package:project_finaltask/views/errorview.dart';
-import 'package:project_finaltask/views/user_articlelistview.dart';
+import 'package:project_finaltask/pages/follow_page.dart';
+import 'package:project_finaltask/pages/follower_page.dart';
+import 'package:project_finaltask/views/error_view.dart';
+import 'package:project_finaltask/views/user_article_list_view.dart';
 
 import '../models/article.dart';
 import '../models/user.dart';
