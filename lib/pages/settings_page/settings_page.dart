@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:project_finaltask/pages/settings_page/privacy_policy_screen.dart';
 import 'package:project_finaltask/pages/settings_page/settings_list_item_component.dart';
-import 'package:project_finaltask/pages/settings_page/tos_screen.dart';
+import 'package:project_finaltask/pages/settings_page/term_of_service_screen.dart';
 import 'package:project_finaltask/utils/color_extension.dart';
 
 import '../../components/appbar_component.dart';
@@ -50,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
         appBar: AppBarComponent(text: 'Settings'),
         body: _isLogined == null
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: CupertinoActivityIndicator())
             : Container(
                 color: '#F7F7F7'.toColor(),
                 child: ListView(
@@ -71,15 +73,23 @@ class _SettingsPageState extends State<SettingsPage> {
                         title: 'プライバシーポリシー',
                         trailing: Icon(Icons.arrow_forward_ios),
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => PrivacyPolicyScreen()));
+                          showCupertinoModalBottomSheet(
+                              enableDrag: true,
+                              context: context,
+                              builder: (context) {
+                                return PrivacyPolicyScreen();
+                              });
                         }),
                     SettingsListItemComponent(
                         title: '利用規約',
                         trailing: Icon(Icons.arrow_forward_ios),
                         onTap: () {
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (_) => ToSScreen()));
+                          showCupertinoModalBottomSheet(
+                              enableDrag: true,
+                              context: context,
+                              builder: (context) {
+                                return TermOfServiceScreen();
+                              });
                         }),
                     SettingsListItemComponent(
                         title: 'アプリバージョン',

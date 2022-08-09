@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/components/appbar_component.dart';
 import 'package:project_finaltask/qiita_client.dart';
@@ -49,13 +50,13 @@ class _FollowPageState extends State<FollowPage> {
                   child: userList.isNotEmpty
                       ? UserListView(userList: userList)
                       : _isLoading
-                          ? CircularProgressIndicator()
+                          ? CupertinoActivityIndicator()
                           : EmptyView(),
                 );
               } else if (snapshot.hasError) {
                 return ErrorView();
               } else
-                return const CircularProgressIndicator();
+                return const CupertinoActivityIndicator();
             }),
       ),
     );

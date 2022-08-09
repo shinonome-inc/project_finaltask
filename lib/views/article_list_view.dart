@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:project_finaltask/utils/change_date.dart';
@@ -19,7 +20,7 @@ class ArticleListView extends StatelessWidget {
         final article = articleList[index];
         return index >= articleList.length
             ? Center(
-                child: CircularProgressIndicator(),
+                child: CupertinoActivityIndicator(),
               )
             : ListTile(
                 leading: CircleAvatar(

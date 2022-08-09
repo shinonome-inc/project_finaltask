@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/components/appbar_component.dart';
 import 'package:project_finaltask/views/use_rview.dart';
@@ -35,7 +36,7 @@ class _MyPageState extends State<MyPage> {
       appBar: AppBarComponent(text: 'MyPage'),
       body: Center(
           child: _isLogined == null
-              ? CircularProgressIndicator()
+              ? CupertinoActivityIndicator()
               : _isLogined!
                   ? UserView(user!)
                   : NotLoginView()),
