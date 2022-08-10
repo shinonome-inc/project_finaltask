@@ -14,20 +14,20 @@ class SettingsListItemComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 40,
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      decoration: BoxDecoration(
-          color: '#FFFFFF'.toColor(),
-          border: Border(
-              bottom: BorderSide(color: '#E0E0E0'.toColor(), width: 0.5))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(title),
-          GestureDetector(child: trailing, onTap: onTap),
-        ],
+    return GestureDetector(
+      child: Container(
+        height: 40,
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        decoration: BoxDecoration(
+            color: '#FFFFFF'.toColor(),
+            border: Border(
+                bottom: BorderSide(color: '#E0E0E0'.toColor(), width: 0.5))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [Text(title), trailing],
+        ),
       ),
+      onTap: onTap,
     );
   }
 }

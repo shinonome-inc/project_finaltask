@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_finaltask/pages/follow_page.dart';
 import 'package:project_finaltask/pages/follower_page.dart';
@@ -53,7 +54,7 @@ class _UserViewState extends State<UserView> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: _isDataLoading
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: CupertinoActivityIndicator())
             : _isError
                 ? ErrorView()
                 : Column(children: [
