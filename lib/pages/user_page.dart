@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_finaltask/components/appbar_component.dart';
 
 import '../../models/user.dart';
-import '../views/use_rview.dart';
+import '../views/user_view.dart';
 
 class UserPage extends StatefulWidget {
   late final User user;

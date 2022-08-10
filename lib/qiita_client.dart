@@ -36,6 +36,14 @@ class QiitaClient {
     return accessToken;
   } //リダイレクトURLからアクセストークンを受け取る
 
+  Future<void> revokeSavedAccessToken() async {
+    final accessToken = await getAccessToken();
+    await http.delete(
+      Uri.parse('https://qiita.com/api/v2/access_tokens'),
+      headers: {'Authorization': 'Bearer $accessToken'},
+    );
+  } //アクセストークンを削除
+
   Future<void> saveAccessToken(String accessToken) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(keyAccessToken, accessToken);
@@ -45,6 +53,12 @@ class QiitaClient {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(keyAccessToken);
   } //アクセストークンを取り出す
+
+  Future<String?> deleteAccessToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(keyAccessToken);
+    return null;
+  } //保存したアクセストークンを削除
 
   Future<bool> accessTokenIsSaved() async {
     final accessToken = await getAccessToken();
@@ -83,7 +97,7 @@ class QiitaClient {
     } else {
       throw Exception('Failed to load tag article');
     }
-  }//tagの記事を取得
+  } //tagの記事を取得
 
   Future<List<Article>> fetchUserArticle() async {
     final accessToken = await getAccessToken();
@@ -97,7 +111,7 @@ class QiitaClient {
     } else {
       throw Exception('Fail to load user article');
     }
-  }//自分の記事を取得
+  } //自分の記事を取得
 
   Future<User> getAuthenticatedUser() async {
     final accessToken = await getAccessToken();
@@ -108,9 +122,9 @@ class QiitaClient {
       final body = json.decode(response.body);
       return User.fromJson(body);
     } else {
-      throw Exception('Failed to load User');
+      throw Exception('Failed to load user');
     }
-  }//自分の情報を取得
+  } //自分の情報を取得
 
   Future<List<User>> getUserFollowees(int page, String? userid) async {
     final accessToken = await getAccessToken();

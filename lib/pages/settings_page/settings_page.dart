@@ -11,6 +11,7 @@ import 'package:project_finaltask/utils/color_extension.dart';
 
 import '../../components/appbar_component.dart';
 import '../../qiita_client.dart';
+import '../top_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -117,7 +118,15 @@ class _SettingsPageState extends State<SettingsPage> {
                               SettingsListItemComponent(
                                   title: 'ログアウトする',
                                   trailing: SizedBox.shrink(),
-                                  onTap: () {}),
+                                  onTap: () async {
+                                    await QiitaClient()
+                                        .revokeSavedAccessToken();
+                                    await QiitaClient().deleteAccessToken();
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (_) => TopPage()),
+                                    );
+                                  }),
                             ],
                           )
                         : SizedBox.shrink()
