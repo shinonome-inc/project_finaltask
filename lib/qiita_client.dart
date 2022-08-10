@@ -54,10 +54,9 @@ class QiitaClient {
     return prefs.getString(keyAccessToken);
   } //アクセストークンを取り出す
 
-  Future<String?> deleteAccessToken() async {
+  Future<void> deleteAccessToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove(keyAccessToken);
-    return null;
+    await prefs.remove(keyAccessToken);
   } //保存したアクセストークンを削除
 
   Future<bool> accessTokenIsSaved() async {

@@ -123,7 +123,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                         .revokeSavedAccessToken();
                                     await QiitaClient().deleteAccessToken();
                                     Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
+                                      MaterialWithModalsPageRoute(
                                           builder: (_) => TopPage()),
                                     );
                                   }),
