@@ -32,7 +32,7 @@ class _FeedPageState extends State<FeedPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        toolbarHeight: 100,
+        toolbarHeight: 114,
         centerTitle: true,
         title: Column(
           children: [
@@ -45,27 +45,17 @@ class _FeedPageState extends State<FeedPage> {
                 color: '#000000'.toColor(),
               ),
             ),
-            Container(
-              height: 36,
-              child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Search',
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    prefixIcon: Icon(Icons.search),
-                    suffixIcon: IconButton,
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  onSubmitted: (String word) {
-                    articleList.clear();
-                    setState(() {
-                      searchWord = word;
-                      loadArticle();
-                    });
-                  }),
+            SizedBox(height: 19),
+            CupertinoSearchTextField(
+              onSubmitted: (String word) {
+                articleList.clear();
+                setState(
+                  () {
+                    searchWord = word;
+                    loadArticle();
+                  },
+                );
+              },
             ),
           ],
         ),
