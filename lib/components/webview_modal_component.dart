@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:project_finaltask/utils/color_extension.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import 'appbar_component.dart';
 
 class WebViewModalComponent extends StatefulWidget {
   const WebViewModalComponent({
@@ -34,33 +35,20 @@ class _WebViewModalComponentState extends State<WebViewModalComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          height: 59,
-          child: Material(
-            child: Text(
-              widget.title,
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w400,
-                fontFamily: 'Pacifico',
-                color: '#000000'.toColor(),
-              ),
-            ),
-          ),
+    return Padding(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Scaffold(
+        appBar: AppBarComponent(text: widget.title),
+        resizeToAvoidBottomInset: false,
+        body: WebView(
+          key: _key,
+          gestureRecognizers: gestureRecognizers,
+          initialUrl: widget.initialUrl,
+          onWebViewCreated: _controller.complete,
+          navigationDelegate: widget.navigationDelegate,
         ),
-        Expanded(
-          child: WebView(
-            key: _key,
-            gestureRecognizers: gestureRecognizers,
-            initialUrl: widget.initialUrl,
-            onWebViewCreated: _controller.complete,
-            navigationDelegate: widget.navigationDelegate,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
