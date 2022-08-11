@@ -52,6 +52,7 @@ class _FeedPageState extends State<FeedPage> {
                     labelText: 'Search',
                     floatingLabelBehavior: FloatingLabelBehavior.never,
                     prefixIcon: Icon(Icons.search),
+                    suffixIcon: IconButton,
                     filled: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),

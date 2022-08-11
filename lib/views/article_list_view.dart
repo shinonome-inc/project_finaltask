@@ -15,6 +15,7 @@ class ArticleListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       itemCount: articleList.length,
       itemBuilder: (BuildContext context, int index) {
         final article = articleList[index];
