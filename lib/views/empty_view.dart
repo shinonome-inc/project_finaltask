@@ -6,9 +6,6 @@ import '../../utils/color_extension.dart';
 class EmptyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      // shrinkWrap: true,
-      // primary: false,
-      // physics: const AlwaysScrollableScrollPhysics(),
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
