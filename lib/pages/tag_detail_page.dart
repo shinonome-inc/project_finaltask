@@ -46,25 +46,40 @@ class _TagDetailPageState extends State<TagDetailPage> {
                     return false;
                   },
                   child: articleList.isNotEmpty
-                      ? Column(children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 12),
-                            child: Text(
-                              " 投稿記事",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: '#828282'.toColor(),
+                      ? CustomScrollView(
+                          physics: BouncingScrollPhysics(),
+                          slivers: [
+                            CupertinoSliverRefreshControl(
+                                onRefresh: loadArticle),
+                            SliverToBoxAdapter(
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height,
+                                  child: Column(children: [
+                                    Container(
+                                      padding: EdgeInsets.only(left: 12),
+                                      child: Text(
+                                        " 投稿記事",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: '#828282'.toColor(),
+                                        ),
+                                      ),
+                                      color: '#F2F2F2'.toColor(),
+                                      height: 28,
+                                      width: double.infinity,
+                                      alignment: Alignment(-1, 0),
+                                    ),
+                                    Flexible(
+                                      child: ArticleListView(
+                                          articleList: articleList),
+                                    ),
+                                  ]),
+                                ),
                               ),
-                            ),
-                            color: '#F2F2F2'.toColor(),
-                            height: 28,
-                            width: double.infinity,
-                            alignment: Alignment(-1, 0),
-                          ),
-                          Flexible(
-                            child: ArticleListView(articleList: articleList),
-                          ),
-                        ])
+                            )
+                          ],
+                        )
                       : _isLoading
                           ? CupertinoActivityIndicator()
                           : Center(
@@ -76,14 +91,14 @@ class _TagDetailPageState extends State<TagDetailPage> {
                 );
               } else if (snapshot.hasError) {
                 return ErrorView();
-              }
-              return CupertinoActivityIndicator();
+              } else
+                return CupertinoActivityIndicator();
             }),
       ),
     );
   }
 
-  void loadArticle() async {
+  Future<void> loadArticle() async {
     _isLoading = true;
     List<Article> results =
         await QiitaClient().fetchTagArticle(page, widget.tag.id);
