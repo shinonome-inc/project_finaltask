@@ -49,12 +49,10 @@ class _FeedPageState extends State<FeedPage> {
             CupertinoSearchTextField(
               onSubmitted: (String word) {
                 articleList.clear();
-                setState(
-                  () {
-                    searchWord = word;
-                    loadArticle();
-                  },
-                );
+                setState(() {
+                  searchWord = word;
+                  loadArticle();
+                });
               },
             ),
           ],
@@ -76,21 +74,37 @@ class _FeedPageState extends State<FeedPage> {
                     return false;
                   },
                   child: articleList.isNotEmpty
-                      ? ArticleListView(articleList: articleList)
+                      ? CustomScrollView(
+                          physics: BouncingScrollPhysics(),
+                          slivers: [
+                            CupertinoSliverRefreshControl(
+                                onRefresh: loadArticle),
+                            SliverToBoxAdapter(
+                                child:
+                                    ArticleListView(articleList: articleList)),
+                          ],
+                        )
                       : _isLoading
                           ? CupertinoActivityIndicator()
-                          : EmptyView(),
+                          : CustomScrollView(
+                              physics: BouncingScrollPhysics(),
+                              slivers: [
+                                CupertinoSliverRefreshControl(
+                                    onRefresh: refreshArticle),
+                                SliverToBoxAdapter(child: EmptyView()),
+                              ],
+                            ),
                 );
               } else if (snapshot.hasError) {
                 return ErrorView();
               } else
-                return const CupertinoActivityIndicator();
+                return CupertinoActivityIndicator();
             }),
       ),
     );
   }
 
-  void loadArticle() async {
+  Future<void> loadArticle() async {
     _isLoading = true;
     List<Article> results = await QiitaClient().fetchArticle(page, searchWord);
     page++;
@@ -98,5 +112,10 @@ class _FeedPageState extends State<FeedPage> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  Future<void> refreshArticle() async {
+    searchWord = '';
+    loadArticle();
   }
 }
