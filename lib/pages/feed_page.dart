@@ -29,6 +29,7 @@ class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     print(searchWord);
+    print(page);
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -51,7 +52,7 @@ class _FeedPageState extends State<FeedPage> {
                 articleList.clear();
                 setState(() {
                   searchWord = word;
-                  loadArticle();
+                  refreshArticle();
                 });
               },
             ),
@@ -75,10 +76,12 @@ class _FeedPageState extends State<FeedPage> {
                   },
                   child: articleList.isNotEmpty
                       ? CustomScrollView(
+                          keyboardDismissBehavior:
+                              ScrollViewKeyboardDismissBehavior.onDrag,
                           physics: BouncingScrollPhysics(),
                           slivers: [
                             CupertinoSliverRefreshControl(
-                                onRefresh: loadArticle),
+                                onRefresh: refreshArticle),
                             SliverToBoxAdapter(
                                 child:
                                     ArticleListView(articleList: articleList)),
@@ -87,10 +90,12 @@ class _FeedPageState extends State<FeedPage> {
                       : _isLoading
                           ? CupertinoActivityIndicator()
                           : CustomScrollView(
+                              keyboardDismissBehavior:
+                                  ScrollViewKeyboardDismissBehavior.onDrag,
                               physics: BouncingScrollPhysics(),
                               slivers: [
                                 CupertinoSliverRefreshControl(
-                                    onRefresh: refreshArticle),
+                                    onRefresh: refreshSearchWordArticle),
                                 SliverToBoxAdapter(child: EmptyView()),
                               ],
                             ),
@@ -115,7 +120,18 @@ class _FeedPageState extends State<FeedPage> {
   }
 
   Future<void> refreshArticle() async {
+    page = 1;
+    _isLoading = true;
+    List<Article> results = await QiitaClient().fetchArticle(page, searchWord);
+    page++;
+    setState(() {
+      articleList = results;
+      _isLoading = false;
+    });
+  }
+
+  Future<void> refreshSearchWordArticle() async {
     searchWord = '';
-    loadArticle();
+    refreshArticle();
   }
 }

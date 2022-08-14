@@ -27,6 +27,7 @@ class _TagPageState extends State<TagPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(page);
     return Scaffold(
       appBar: AppBarComponent(text: 'Tag'),
       body: Center(
@@ -46,7 +47,8 @@ class _TagPageState extends State<TagPage> {
                       ? CustomScrollView(
                           physics: BouncingScrollPhysics(),
                           slivers: [
-                            CupertinoSliverRefreshControl(onRefresh: loadTag),
+                            CupertinoSliverRefreshControl(
+                                onRefresh: refreshTag),
                             SliverToBoxAdapter(
                                 child: TagGridView(tags: tagList)),
                           ],
@@ -78,6 +80,15 @@ class _TagPageState extends State<TagPage> {
       _isLoading = false;
     });
   }
-}
 
-// return TagGridView(tags: snapshot.data!.toList());
+  Future<void> refreshTag() async {
+    page = 1;
+    _isLoading = true;
+    List<Tag> results = await QiitaClient().fetchTag(page);
+    page++;
+    setState(() {
+      tagList = results;
+      _isLoading = false;
+    });
+  }
+}

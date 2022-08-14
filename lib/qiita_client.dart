@@ -141,6 +141,19 @@ class QiitaClient {
     }
   } //自分の情報を取得
 
+  Future<User> getUser(userId) async {
+    final accessToken = await getAccessToken();
+    final url = 'https://qiita.com/api/v2/users/$userId';
+    final response = await http
+        .get(Uri.parse(url), headers: {'Authorization': 'Bearer $accessToken'});
+    if (response.statusCode == 200) {
+      final body = json.decode(response.body);
+      return User.fromJson(body);
+    } else {
+      throw Exception('Failed to load user');
+    }
+  }
+
   Future<List<User>> getUserFollowees(int page, String? userid) async {
     final accessToken = await getAccessToken();
     final url =

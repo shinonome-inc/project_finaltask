@@ -19,33 +19,24 @@ class UserView extends StatefulWidget {
 
 class _UserViewState extends State<UserView> {
   List<Article> articleList = [];
+  late User _user;
+  User? _newUser;
   bool _isDataLoading = false;
   bool _isLoading = false;
   int page = 1;
   bool _isError = false;
 
-  Future<void> fetchUserData() async {
-    setState(() {
-      _isDataLoading = true;
-    });
-    try {
-      articleList =
-          await QiitaClient().fetchArticle(page, 'user%3A${widget.user.id}');
-      _isDataLoading = false;
-    } catch (e) {
-      _isError = true;
-      print(e);
-    }
-    setState(() {
-      _isDataLoading = false;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    fetchUserData();
     loadArticle();
+    _user = widget.user;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print("dispose");
   }
 
   @override
@@ -66,13 +57,14 @@ class _UserViewState extends State<UserView> {
                     child: CustomScrollView(
                         physics: BouncingScrollPhysics(),
                         slivers: [
-                          CupertinoSliverRefreshControl(onRefresh: loadArticle),
+                          CupertinoSliverRefreshControl(
+                              onRefresh: refreshUserData),
                           SliverToBoxAdapter(
                               child: SingleChildScrollView(
                             child: Container(
                               height: MediaQuery.of(context).size.height,
                               child: Column(children: [
-                                UserProfile(user: widget.user),
+                                UserProfile(user: _user),
                                 articleList.isNotEmpty
                                     ? Container(
                                         height:
@@ -115,13 +107,30 @@ class _UserViewState extends State<UserView> {
                   ));
   }
 
-  Future<void> loadArticle() async {
-    _isLoading = true;
-    List<Article> results =
-        await QiitaClient().fetchArticle(page, 'user%3A${widget.user.id}');
-    page++;
-    articleList.addAll(results);
+  Future<void> refreshUserData() async {
+    _newUser = await QiitaClient().getUser(_user.id);
     setState(() {
+      _user = _newUser!;
+    });
+  }
+
+  Future<void> loadArticle() async {
+    setState(() {
+      _isDataLoading = true;
+      _isLoading = true;
+    });
+    try {
+      List<Article> results =
+          await QiitaClient().fetchArticle(page, 'user%3A${widget.user.id}');
+      page++;
+      articleList.addAll(results);
+      _isDataLoading = false;
+    } catch (e) {
+      _isError = true;
+      print(e);
+    }
+    setState(() {
+      _isDataLoading = false;
       _isLoading = false;
     });
   }
