@@ -34,13 +34,8 @@ class _UserViewState extends State<UserView> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    print("dispose");
-  }
-
-  @override
   Widget build(BuildContext context) {
+    print(page);
     return Scaffold(
         body: _isDataLoading
             ? Center(child: CupertinoActivityIndicator())
@@ -115,10 +110,8 @@ class _UserViewState extends State<UserView> {
   }
 
   Future<void> loadArticle() async {
-    setState(() {
-      _isDataLoading = true;
-      _isLoading = true;
-    });
+    _isDataLoading = true;
+    _isLoading = true;
     try {
       List<Article> results =
           await QiitaClient().fetchArticle(page, 'user%3A${widget.user.id}');

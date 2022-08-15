@@ -102,8 +102,8 @@ class _FeedPageState extends State<FeedPage> {
                 );
               } else if (snapshot.hasError) {
                 return ErrorView();
-              } else
-                return CupertinoActivityIndicator();
+              }
+              return CupertinoActivityIndicator();
             }),
       ),
     );

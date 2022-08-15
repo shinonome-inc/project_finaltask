@@ -39,9 +39,13 @@ class TagGridView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image(
-                              width: 38,
-                              height: 38,
-                              image: NetworkImage(tag.iconUrl)),
+                            width: 38,
+                            height: 38,
+                            image: NetworkImage(tag.iconUrl),
+                            errorBuilder: (context, exception, stackTrace) {
+                              return Icon(Icons.error);
+                            },
+                          ),
                           ListTile(
                             title: Center(
                               child: Text(tag.id,
