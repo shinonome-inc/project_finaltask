@@ -7,7 +7,6 @@ import 'package:project_finaltask/views/error_view.dart';
 
 import '../models/article.dart';
 import '../qiita_client.dart';
-import '../utils/color_extension.dart';
 
 class TagDetailPage extends StatefulWidget {
   late final Tag tag;
@@ -30,6 +29,7 @@ class _TagDetailPageState extends State<TagDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(page);
     return Scaffold(
       appBar: AppBarComponent(text: widget.tag.id, backButton: true),
       body: Center(
@@ -46,25 +46,17 @@ class _TagDetailPageState extends State<TagDetailPage> {
                     return false;
                   },
                   child: articleList.isNotEmpty
-                      ? Column(children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 12),
-                            child: Text(
-                              " 投稿記事",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: '#828282'.toColor(),
-                              ),
-                            ),
-                            color: '#F2F2F2'.toColor(),
-                            height: 28,
-                            width: double.infinity,
-                            alignment: Alignment(-1, 0),
-                          ),
-                          Flexible(
-                            child: ArticleListView(articleList: articleList),
-                          ),
-                        ])
+                      ? CustomScrollView(
+                          physics: BouncingScrollPhysics(),
+                          slivers: [
+                            CupertinoSliverRefreshControl(
+                                onRefresh: refreshArticle),
+                            SliverToBoxAdapter(
+                              child: ArticleListView(
+                                  articleList: articleList, header: true),
+                            )
+                          ],
+                        )
                       : _isLoading
                           ? CupertinoActivityIndicator()
                           : Center(
@@ -76,20 +68,32 @@ class _TagDetailPageState extends State<TagDetailPage> {
                 );
               } else if (snapshot.hasError) {
                 return ErrorView();
-              }
-              return CupertinoActivityIndicator();
+              } else
+                return CupertinoActivityIndicator();
             }),
       ),
     );
   }
 
-  void loadArticle() async {
+  Future<void> loadArticle() async {
     _isLoading = true;
     List<Article> results =
         await QiitaClient().fetchTagArticle(page, widget.tag.id);
     page++;
     articleList.addAll(results);
     setState(() {
+      _isLoading = false;
+    });
+  }
+
+  Future<void> refreshArticle() async {
+    page = 1;
+    _isLoading = true;
+    List<Article> results =
+        await QiitaClient().fetchTagArticle(page, widget.tag.id);
+    page++;
+    setState(() {
+      articleList = results;
       _isLoading = false;
     });
   }

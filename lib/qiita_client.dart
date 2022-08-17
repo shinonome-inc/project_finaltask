@@ -112,6 +112,22 @@ class QiitaClient {
     }
   } //自分の記事を取得
 
+  Future<List<Tag>> fetchTag(int page) async {
+    final accessToken = await getAccessToken();
+    final url =
+        'https://qiita.com/api/v2/tags?page=$page&per_page=20&sort=count';
+    final response = await http.get(Uri.parse(url),
+        headers: accessToken != null
+            ? {'Authorization': 'Bearer $accessToken'}
+            : null);
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonArray = json.decode(response.body);
+      return jsonArray.map((json) => Tag.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load tag');
+    }
+  }
+
   Future<User> getAuthenticatedUser() async {
     final accessToken = await getAccessToken();
     final url = 'https://qiita.com/api/v2/authenticated_user';
@@ -124,6 +140,19 @@ class QiitaClient {
       throw Exception('Failed to load user');
     }
   } //自分の情報を取得
+
+  Future<User> getUser(userId) async {
+    final accessToken = await getAccessToken();
+    final url = 'https://qiita.com/api/v2/users/$userId';
+    final response = await http
+        .get(Uri.parse(url), headers: {'Authorization': 'Bearer $accessToken'});
+    if (response.statusCode == 200) {
+      final body = json.decode(response.body);
+      return User.fromJson(body);
+    } else {
+      throw Exception('Failed to load user');
+    }
+  }
 
   Future<List<User>> getUserFollowees(int page, String? userid) async {
     final accessToken = await getAccessToken();
@@ -150,21 +179,6 @@ class QiitaClient {
       return jsonArray.map((json) => User.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load user followers');
-    }
-  }
-
-  Future<List<Tag>> fetchTag() async {
-    final accessToken = await getAccessToken();
-    final url = 'https://qiita.com/api/v2/tags?page=1&per_page=20&sort=count';
-    final response = await http.get(Uri.parse(url),
-        headers: accessToken != null
-            ? {'Authorization': 'Bearer $accessToken'}
-            : null);
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonArray = json.decode(response.body);
-      return jsonArray.map((json) => Tag.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load tag');
     }
   }
 }

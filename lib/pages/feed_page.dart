@@ -29,10 +29,11 @@ class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     print(searchWord);
+    print(page);
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        toolbarHeight: 100,
+        toolbarHeight: 114,
         centerTitle: true,
         title: Column(
           children: [
@@ -45,26 +46,15 @@ class _FeedPageState extends State<FeedPage> {
                 color: '#000000'.toColor(),
               ),
             ),
-            Container(
-              height: 36,
-              child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Search',
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    prefixIcon: Icon(Icons.search),
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  onSubmitted: (String word) {
-                    articleList.clear();
-                    setState(() {
-                      searchWord = word;
-                      loadArticle();
-                    });
-                  }),
+            SizedBox(height: 19),
+            CupertinoSearchTextField(
+              onSubmitted: (String word) {
+                articleList.clear();
+                setState(() {
+                  searchWord = word;
+                  refreshArticle();
+                });
+              },
             ),
           ],
         ),
@@ -85,21 +75,41 @@ class _FeedPageState extends State<FeedPage> {
                     return false;
                   },
                   child: articleList.isNotEmpty
-                      ? ArticleListView(articleList: articleList)
+                      ? CustomScrollView(
+                          keyboardDismissBehavior:
+                              ScrollViewKeyboardDismissBehavior.onDrag,
+                          physics: BouncingScrollPhysics(),
+                          slivers: [
+                            CupertinoSliverRefreshControl(
+                                onRefresh: refreshArticle),
+                            SliverToBoxAdapter(
+                                child:
+                                    ArticleListView(articleList: articleList)),
+                          ],
+                        )
                       : _isLoading
                           ? CupertinoActivityIndicator()
-                          : EmptyView(),
+                          : CustomScrollView(
+                              keyboardDismissBehavior:
+                                  ScrollViewKeyboardDismissBehavior.onDrag,
+                              physics: BouncingScrollPhysics(),
+                              slivers: [
+                                CupertinoSliverRefreshControl(
+                                    onRefresh: refreshSearchWordArticle),
+                                SliverToBoxAdapter(child: EmptyView()),
+                              ],
+                            ),
                 );
               } else if (snapshot.hasError) {
                 return ErrorView();
-              } else
-                return const CupertinoActivityIndicator();
+              }
+              return CupertinoActivityIndicator();
             }),
       ),
     );
   }
 
-  void loadArticle() async {
+  Future<void> loadArticle() async {
     _isLoading = true;
     List<Article> results = await QiitaClient().fetchArticle(page, searchWord);
     page++;
@@ -107,5 +117,21 @@ class _FeedPageState extends State<FeedPage> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  Future<void> refreshArticle() async {
+    page = 1;
+    _isLoading = true;
+    List<Article> results = await QiitaClient().fetchArticle(page, searchWord);
+    page++;
+    setState(() {
+      articleList = results;
+      _isLoading = false;
+    });
+  }
+
+  Future<void> refreshSearchWordArticle() async {
+    searchWord = '';
+    refreshArticle();
   }
 }
