@@ -13,7 +13,6 @@ class UserListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      physics: const AlwaysScrollableScrollPhysics(),
       shrinkWrap: true,
       primary: false,
       itemCount: userList.length,

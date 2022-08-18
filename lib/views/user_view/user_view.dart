@@ -50,7 +50,8 @@ class _UserViewState extends State<UserView> {
                       return true;
                     },
                     child: CustomScrollView(
-                        physics: const AlwaysScrollableScrollPhysics(),
+                        physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
                         slivers: [
                           CupertinoSliverRefreshControl(
                               onRefresh: refreshUserData),

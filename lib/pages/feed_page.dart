@@ -78,7 +78,8 @@ class _FeedPageState extends State<FeedPage> {
                       ? CustomScrollView(
                           keyboardDismissBehavior:
                               ScrollViewKeyboardDismissBehavior.onDrag,
-                          physics: const AlwaysScrollableScrollPhysics(),
+                          physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
                           slivers: [
                             CupertinoSliverRefreshControl(
                                 onRefresh: refreshArticle),
@@ -92,7 +93,8 @@ class _FeedPageState extends State<FeedPage> {
                           : CustomScrollView(
                               keyboardDismissBehavior:
                                   ScrollViewKeyboardDismissBehavior.onDrag,
-                              physics: const AlwaysScrollableScrollPhysics(),
+                              physics: const BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics()),
                               slivers: [
                                 CupertinoSliverRefreshControl(
                                     onRefresh: refreshSearchWordArticle),
