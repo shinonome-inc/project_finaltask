@@ -29,6 +29,7 @@ class _FollowerPageState extends State<FollowerPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(page);
     return Scaffold(
       appBar: AppBarComponent(
         text: 'Followers',
@@ -48,7 +49,15 @@ class _FollowerPageState extends State<FollowerPage> {
                     return false;
                   },
                   child: userList.isNotEmpty
-                      ? UserListView(userList: userList)
+                      ? CustomScrollView(
+                          physics: BouncingScrollPhysics(),
+                          slivers: [
+                            CupertinoSliverRefreshControl(
+                                onRefresh: refreshUser),
+                            SliverToBoxAdapter(
+                                child: UserListView(userList: userList)),
+                          ],
+                        )
                       : _isLoading
                           ? CupertinoActivityIndicator()
                           : EmptyView(),
@@ -69,6 +78,18 @@ class _FollowerPageState extends State<FollowerPage> {
     page++;
     userList.addAll(results);
     setState(() {
+      _isLoading = false;
+    });
+  }
+
+  Future<void> refreshUser() async {
+    page = 1;
+    _isLoading = true;
+    List<User> results =
+        await QiitaClient().getUserFollowers(page, widget.user.id);
+    page++;
+    setState(() {
+      userList = results;
       _isLoading = false;
     });
   }

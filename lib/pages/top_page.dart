@@ -94,7 +94,7 @@ class _TopPageState extends State<TopPage> {
                           ),
                         ),
                         child: Text(
-                          'ログインする',
+                          'ログイン',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontStyle: FontStyle.normal,

@@ -68,10 +68,11 @@ class UserProfile extends StatelessWidget {
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialWithModalsPageRoute(builder: (context) {
-                      return FollowPage(user);
-                    }));
+                    if (user.followeescount != 0)
+                      Navigator.of(context)
+                          .push(MaterialWithModalsPageRoute(builder: (context) {
+                        return FollowPage(user);
+                      }));
                   },
                   child: Text(
                     'フォロー中',
@@ -91,10 +92,11 @@ class UserProfile extends StatelessWidget {
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialWithModalsPageRoute(builder: (context) {
-                      return FollowerPage(user);
-                    }));
+                    if (user.followerscount != 0)
+                      Navigator.of(context)
+                          .push(MaterialWithModalsPageRoute(builder: (context) {
+                        return FollowerPage(user);
+                      }));
                   },
                   child: Text(
                     'フォロワー',

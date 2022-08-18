@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -12,12 +13,14 @@ class UserListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
+      primary: false,
       itemCount: userList.length,
       itemBuilder: (BuildContext context, int index) {
         final user = userList[index];
         return index >= userList.length
             ? Center(
-                child: CircularProgressIndicator(),
+                child: CupertinoActivityIndicator(),
               )
             : GestureDetector(
                 child: Container(
