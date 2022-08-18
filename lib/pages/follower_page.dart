@@ -50,7 +50,7 @@ class _FollowerPageState extends State<FollowerPage> {
                   },
                   child: userList.isNotEmpty
                       ? CustomScrollView(
-                          physics: BouncingScrollPhysics(),
+                          physics: const AlwaysScrollableScrollPhysics(),
                           slivers: [
                             CupertinoSliverRefreshControl(
                                 onRefresh: refreshUser),
