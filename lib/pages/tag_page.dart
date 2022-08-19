@@ -45,7 +45,8 @@ class _TagPageState extends State<TagPage> {
                   },
                   child: tagList.isNotEmpty
                       ? CustomScrollView(
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
                           slivers: [
                             CupertinoSliverRefreshControl(
                                 onRefresh: refreshTag),
